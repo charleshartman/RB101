@@ -1,6 +1,6 @@
 # payment_calculator_v2.rb
+# refactor, add checks to validate inputs, repeat option, clear
 
-# refactor and add checks to validate inputs
 system "clear"
 
 def prompt(message)
@@ -43,7 +43,7 @@ loop do
   apr = ''
   apr_monthly = ''
   loop do
-    prompt('Please enter APR as a decimal (e.g. 5 or 3.25):')
+    prompt('Please enter APR as a decimal (e.g. 5, 4.125, 3.25):')
     apr = gets.chomp
 
     if valid_entry?(apr)

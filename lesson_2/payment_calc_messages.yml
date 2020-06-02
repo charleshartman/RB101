@@ -1,0 +1,11 @@
+# YAML for payment_calculator_v3.rb
+
+welcome: "Welcome to Payment Calculator"
+invalid: "Invalid entry, please input a valid number!"
+get_loan_amount: "Please enter loan amount:"
+get_apr: "Please enter APR as a decimal (e.g. 5, 4.125, 3.25):"
+get_duration: "Lastly, please enter duration (in years):"
+confirm: "Confirming payment calculation for $"
+confirm_cont: "at an interest rate of #{apr}% for #{years} years.\n\n"
+repeat: "Would you like to perform another payment calculation? (y/n)"
+goodbye: "Exiting payment calculator... Have a nice day!"
