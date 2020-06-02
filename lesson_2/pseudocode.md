@@ -1,7 +1,7 @@
 
 
 # a method that returns the sum of two integers
-define a method that accepts to arguments
+define a method that accepts two arguments
 add the two arguments
 return the result
  
