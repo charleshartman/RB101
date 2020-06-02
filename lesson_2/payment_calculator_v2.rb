@@ -1,6 +1,7 @@
 # payment_calculator_v2.rb
 
 # refactor and add checks to validate inputs
+system "clear"
 
 def prompt(message)
   puts "=> #{message}"
@@ -11,8 +12,16 @@ def calculation(p, j, n)
   m
 end
 
+def float?(input)
+  /\d/.match(input) && /^\d*\.?\d*$/.match(input)
+end
+
+def check_zero?(input)
+  input != '0'
+end
+
 def valid_entry?(input)
-  input > 0
+  float?(input) && check_zero?(input)
 end
 
 prompt('Welcome to Payment Calculator')
@@ -21,26 +30,27 @@ loop do
   loan_amount = ''
   loop do
     prompt('Please enter loan amount:')
-    loan_amount = gets.chomp.to_f
+    loan_amount = gets.chomp
 
     if valid_entry?(loan_amount)
+      loan_amount = loan_amount.to_f
       break
     else
-      prompt('Invalid entry, please input a positive number!')
+      prompt('Invalid entry, please input a valid number!')
     end
   end
 
   apr = ''
   apr_monthly = ''
   loop do
-    prompt('Please enter APR as a percentage (e.g. 5% or 3.25%):')
-    apr = gets.chomp.to_f
+    prompt('Please enter APR as a decimal (e.g. 5 or 3.25):')
+    apr = gets.chomp
 
     if valid_entry?(apr)
-      apr_monthly = apr / 100 / 12
+      apr_monthly = apr.to_f / 100 / 12
       break
     else
-      prompt('Invalid entry, please input a positive number!')
+      prompt('Invalid entry, please input a valid number!')
     end
   end
 
@@ -48,13 +58,13 @@ loop do
   months = ''
   loop do
     prompt('Lastly, please enter duration (in years):')
-    years = gets.chomp.to_i
+    years = gets.chomp
 
     if valid_entry?(years)
-      months = years * 12
+      months = years.to_i * 12
       break
     else
-      prompt('Invalid entry, please input a positive number!')
+      prompt('Invalid entry, please input a valid number!')
     end
   end
 
@@ -62,15 +72,15 @@ loop do
   puts "Confirming payment calculation for $" + format('%.2f', loan_amount.to_s)
   puts "at an interest rate of #{apr}% for #{years} years.\n\n"
 
-  # puts "#{years} years converted to #{months} months."
-  # puts "#{apr}% converted to a monthly rate of #{apr_monthly.round(5)}."
-
   monthly_pymt = calculation(loan_amount, apr_monthly, months)
 
   puts "Your monthly payment would be $" + format('%.2f', monthly_pymt.round(2))
-  puts "-----------------------------------------------\n"
+  puts "-----------------------------------------------\n\n"
 
-  prompt("Would you like to perform another payment calculation? (Y/N)")
+  prompt("Would you like to perform another payment calculation? (y/n)")
   repeat = gets.chomp
   break unless repeat.downcase.start_with?('y')
+  system "clear"
 end
+
+prompt("Exiting payment calculator... Have a nice day!")
