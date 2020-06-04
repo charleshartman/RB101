@@ -71,6 +71,8 @@ loop do
     end
   end
 
+  system "clear" # does nothing on windows, but good on Mac/Linux
+
   puts "\n-----------------------------------------------"
   puts(MESSAGES['confirm'] + format('%.2f', loan_amount.to_s))
   puts(MESSAGES['conf2'] + apr + MESSAGES['conf3'] + years + MESSAGES['conf4'])
