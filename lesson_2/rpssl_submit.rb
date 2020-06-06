@@ -1,29 +1,4 @@
-# rpssl
-
-# goals
-# add two more conditions (spock, lizard) to logic for RPS
-# accept input of up to the first letter of each choice
-# this is a match not a single game, wrap larger game loop in
-# loop that counts and ends after five wins by either player
-
-# RULES
-=begin
-Scissors cuts paper
-Paper covers rock
-Rock crushes lizard
-Lizard poisons Spock
-Spock smashes scissors
-Scissors decapitates lizard
-Lizards eats paper
-Paper disproves Spock
-Spock vaporizes rock
-Rock crushes scissors
-=end
-
-# write keep_score method
-# add +2 choices
-# enable abbrieviation
-# encompass game with match loop
+# rpssl_submit.rb
 
 VALID_CHOICES = %w(r p s S l)
 
@@ -100,7 +75,6 @@ loop do
       choice = gets.chomp
 
       if VALID_CHOICES.include?(choice)
-        # puts choice
         break
       else
         prompt('Not a valid choice. Please try again.')
