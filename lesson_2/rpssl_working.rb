@@ -57,12 +57,18 @@ rpssl_logic = {
   l: ['S', 'p']
 }
 
+=begin
 def win?(first, second, logic_hash)
   first == 'r' && logic_hash[:r].include?(second) ||
     first == 'p' && logic_hash[:p].include?(second) ||
     first == 's' && logic_hash[:s].include?(second) ||
     first == 'S' && logic_hash[:S].include?(second) ||
     first == 'l' && logic_hash[:l].include?(second)
+end
+=end
+
+def win?(first, second, logic_hash)
+  logic_hash[first.to_sym].include?(second)
 end
 
 def display_results(player, computer, logic_hash)

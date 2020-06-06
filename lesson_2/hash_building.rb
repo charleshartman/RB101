@@ -38,7 +38,7 @@ puts rpssl_logic[:S]
 # elseif player chooses (key) and computer choice is included in key's list 
 # of  values then player wins
 # else computer wins
-
+=begin
 def win?(first, second, logic_hash)
   first == 'r' && logic_hash[:r].include?(second) ||
     first == 'p' && logic_hash[:p].include?(second) ||
@@ -46,12 +46,14 @@ def win?(first, second, logic_hash)
     first == 'S' && logic_hash[:S].include?(second) ||
     first == 'l' && logic_hash[:l].include?(second)
 end
+=end
+
+def win?(first, second, logic_hash)
+  logic_hash[first.to_sym].include?(second)
+end
 
 puts win?('r', 'S', rpssl_logic)
 puts win?('p', 'S', rpssl_logic)
 puts win?('s', 'S', rpssl_logic)
 puts win?('S', 'S', rpssl_logic)
 puts win?('l', 'S', rpssl_logic)
-
-
-
