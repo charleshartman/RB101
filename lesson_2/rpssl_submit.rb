@@ -86,7 +86,7 @@ loop do
     result = display_results(choice, computer_choice, rpssl_logic)
     keep_score(result, scoreboard)
 
-    sleep 2
+    sleep 2.25
 
     clear_screen
 
@@ -96,7 +96,9 @@ loop do
       puts ''
       break
     elsif scoreboard[:computer] == 5
+      puts ''
       prompt("Computer has won five rounds! Computer wins the match!")
+      puts ''
       break
     end
   end
