@@ -17,10 +17,9 @@ end
 repeat('Hello', 10)
 repeat('Well pleyed, sir.', 3)
 
-# book solution
-def repeat(string, number)
-  number.times do
-    puts string
-  end
-end
-
+# book solution better
+# def repeat(string, number)
+#   number.times do
+#     puts string
+#   end
+# end
