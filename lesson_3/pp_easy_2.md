@@ -93,5 +93,23 @@ advice = "Few things in life are as important as house training your pet dinosau
 Review the String#slice! documentation, and use that method to make the return value "Few things in life are as important as ". But leave the advice variable as "house training your pet dinosaur.".
 
 As a bonus, what happens if you use the String#slice method instead?
+```ruby
+advice.slice!("house training your pet dinosaur.")
+advice.slice!(0, advice.index("house"))
+```
 
+*Question 9*
+Write a one-liner to count the number of lower-case 't' characters in the following string:
+```ruby
+statement = "The Flintstones Rock!"
 
+statement.count('t')
+```
+
+*Question 10*
+Back in the stone age (before CSS) we used spaces to align things on the screen. If we had a 40 character wide table of Flintstone family members, how could we easily center that title above the table with spaces?
+```ruby
+title = "Flintstone Family Members"
+
+title.center(40)
+```
