@@ -1,6 +1,6 @@
 # rpssl_v2.rb
 
-VALID_CHOICES = %w(r p s S l)
+VALID_CHOICES = %w(r p sc sp l)
 
 def clear_screen
   system 'clear'
@@ -24,12 +24,20 @@ def keep_score(new, totals)
   end
 end
 
+PLAYS = {
+  r: 'rock',
+  p: 'paper',
+  sc: 'scissors',
+  sp: 'spock',
+  l: 'lizard'
+}
+
 RPSSL_LOGIC = {
-  r: ['s', 'l'],
-  p: ['r', 'S'],
-  s: ['p', 'l'],
-  S: ['s', 'r'],
-  l: ['S', 'p']
+  r: ['sc', 'l'],
+  p: ['r', 'sp'],
+  sc: ['p', 'l'],
+  sp: ['sc', 'r'],
+  l: ['sp', 'p']
 }
 
 def win?(first, second, logic_hash)
@@ -67,9 +75,8 @@ loop do
       prompt("The current player score is: #{scoreboard[:player]}")
       prompt("The current computer score is: #{scoreboard[:computer]}")
       puts ''
-      prompt("Choose one: [r]ock [p]aper [s]cissors [S]pock [l]izard")
-      prompt("First letter only please, mind your case for [S]pock!")
-      choice = gets.chomp
+      prompt("Choose one: [r]ock [p]aper [sc]issors [sp]ock [l]izard")
+      choice = gets.chomp.downcase
 
       if VALID_CHOICES.include?(choice)
         break
@@ -82,7 +89,8 @@ loop do
 
     computer_choice = VALID_CHOICES.sample
 
-    puts "You chose: #{choice}; Computer chose: #{computer_choice}"
+    puts "You chose: #{PLAYS[choice.to_sym]}"
+    puts "Computer chose: #{PLAYS[computer_choice.to_sym]}"
 
     result = display_results(choice, computer_choice, RPSSL_LOGIC)
     keep_score(result, scoreboard)
