@@ -4,26 +4,15 @@
 # a string of alternating 1s and 0s, always starting with 1. The length of
 # the string should match the given integer.
 
-def stringy(num)
+def stringy(input)
   output = ''
-  if num.odd?
-    while num > 0
-      if num.odd?
-        output << '1'
-      else
-        output << '0'
-      end
-      num -= 1
+  while input > 0
+    if output == '' || output[-1] == '0'
+      output << '1'
+    else
+      output << '0'
     end
-  else
-    while num > 0
-      if num.even?
-        output << '1'
-      else
-        output << '0'
-      end
-      num -= 1
-    end
+    input -= 1
   end
   output
 end
