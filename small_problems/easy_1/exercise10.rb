@@ -24,7 +24,7 @@ puts calculate_bonus(50000, true) == 25000
 # - input: positive integer, boolean
 # - output: positive integer
 # - data structures: integers, boolean
-# - algorithm:  take two arguments 
+# - algorithm:  take two arguments
 #               assign a bonus variable = 0
 #               if bonus == true then salary * .5
 #               else bonus = 0
