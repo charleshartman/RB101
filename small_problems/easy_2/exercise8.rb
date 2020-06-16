@@ -6,7 +6,8 @@
 
 puts ">> Please enter an integer greater than 0:"
 input = gets.chomp.to_i
-sum_result = input * (input + 1) / 2
+# sum_result = input * (input + 1) / 2
+sum_result = (1..input).inject(:+)
 prod_result = (1..input).inject(:*)
 
 loop do
@@ -26,4 +27,4 @@ loop do
 end
 
 # sum = (n * (n+1)) / 2
-# product = (1..n).inject(:*) 
+# product = (1..n).inject(:*)
