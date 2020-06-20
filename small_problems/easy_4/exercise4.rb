@@ -11,7 +11,15 @@
 # to determine leap years both before and after 1752.
 
 def leap_year?(year)
-  # solve
+  if year < 1752 && year % 4 == 0
+    true
+  elsif year % 400 == 0
+    true
+  elsif year % 100 == 0
+    false
+  else
+    year % 4 == 0
+  end
 end
 
 p leap_year?(2016) == true
@@ -27,3 +35,5 @@ p leap_year?(1700) == true
 p leap_year?(1) == false
 p leap_year?(100) == true
 p leap_year?(400) == true
+p leap_year?(2020) == true
+p leap_year?(2019) == false
