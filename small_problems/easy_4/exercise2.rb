@@ -13,7 +13,7 @@ def century(year)
   # when
 end
 
-# year % 10
+# year / 100 + 1
 
 # Examples:
 p century(2000) == '20th'
