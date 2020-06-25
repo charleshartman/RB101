@@ -15,9 +15,18 @@
 # Ruby, such as String#to_i, Integer(), etc. Your method should do this the
 # old-fashioned way and calculate the result by analyzing the characters in
 # the string.
+NUMBERS = { '0' => 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4,
+            '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9 }
 
 def string_to_integer(str)
-  # solve
+  new = str.chars.map do |num|
+    NUMBERS[num]
+  end
+  as_integer = 0
+  new.each do |num2|
+    as_integer = 10 * as_integer + num2
+  end
+  as_integer
 end
 
 # Examples

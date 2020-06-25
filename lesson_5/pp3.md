@@ -19,6 +19,7 @@ hsh2 = {first: {'d' => 3}, second: {'e' => 2, 'f' => 1}, third: {'g' => 0}}
 hsh2[:third].key(0)
 
 ```
+
 Book Note: the Hash#key method returns the key of an occurrence of a given value. A couple of things to note when using this method:
 
 If more than one key has the same value the method returns the key for the first occurrence of that value.
