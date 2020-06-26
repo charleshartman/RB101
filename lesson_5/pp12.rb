@@ -18,7 +18,9 @@ arr =
 #      value then push to new hash
 
 hash = {}
+
 arr.each do |value|
   hash[value[0]] = value[1]
 end
+
 p hash
