@@ -16,9 +16,23 @@ def time_of_day(num)
   hours = num / 60
   days = hours / 24
   remain_hours = hours % 24 if days > 0
+=begin
+  if num == 0 || num % 1440 == 0
+    "00:00"
+  elsif num < 0 && num > -1440
+
+  elsif num < -1440
+
+  elsif num > 0 && num < 1440
+
+  elsif num > 1440
+
+  end
+=end
   puts "Minutes: #{minutes} | Hours: #{hours}"
   puts "Days: #{days} | Remainder Hours: #{remain_hours}"
 end
+
 # Examples:
 p time_of_day(0) == "00:00"
 p time_of_day(-3) == "23:57"
