@@ -10,27 +10,14 @@
 
 # You may not use ruby's Date and Time classes.
 
-def time_of_day(num)
-  # computations
-  minutes = num % 60
-  hours = num / 60
-  days = hours / 24
-  remain_hours = hours % 24 if days > 0
-=begin
-  if num == 0 || num % 1440 == 0
-    "00:00"
-  elsif num < 0 && num > -1440
+HOURS_PER_DAY = 24
+MINUTES_PER_HOUR = 60
+MINUTES_PER_DAY = MINUTES_PER_HOUR * HOURS_PER_DAY
 
-  elsif num < -1440
-
-  elsif num > 0 && num < 1440
-
-  elsif num > 1440
-
-  end
-=end
-  puts "Minutes: #{minutes} | Hours: #{hours}"
-  puts "Days: #{days} | Remainder Hours: #{remain_hours}"
+def time_of_day(minutes_from_midnight)
+  minutes_from_midnight = minutes_from_midnight % MINUTES_PER_DAY
+  hours, minutes = minutes_from_midnight.divmod(MINUTES_PER_HOUR)
+  format('%02d:%02d', hours, minutes)
 end
 
 # Examples:
@@ -42,29 +29,3 @@ p time_of_day(3000) == "02:00"
 p time_of_day(800) == "13:20"
 p time_of_day(-4231) == "01:29"
 # Disregard Daylight Savings and Standard Time and other complications.
-
-# - PEDAC
-# - input: integer
-# - output: string value representing time
-# - data structure: integers, two variables representing hours and minutes
-#   - these will be converted to string or output with string interpolation
-# - algorithm:
-#     - if argument is zero return "00:00"
-#     - if argunent is negative int do math/logic:
-#       - convert minutes to hours/minutes
-#       - math in relation to midnight
-#     - if argument is positive int do math/logic:
-#       - convert minutes to hours/minutes
-#       - math in relation to midnight
-
-# some logic
-=begin
-if num == 0 || num % 1440 == 0
-  "00:00"
-elsif num < 1440 
-  minutes = num % 60
-  hours = num / 60
-  time = "#{hours}:#{minutes}"
-elsif num > 0 <= 1440
-...
-=end
