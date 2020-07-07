@@ -8,11 +8,21 @@
 # the string will always contain at least one word. You may also assume
 # that each string contains nothing but words and spaces
 
+def switcheroo(pieces)
+  pieces.map do |sub_array|
+    first_char = sub_array.shift
+    last_char = sub_array.pop
+    sub_array.unshift(last_char)
+    sub_array.push(first_char)
+  end
+end
+
 def swap(str)
   verso = str.split
-  # more code to remove first and last letters, assign them to variables,
-  # and then insert them back at 0 and -1
-  p verso
+  pieces = verso.map(&:chars)
+  switcheroo(pieces)
+  reunite = pieces.map(&:join)
+  reunite.join(' ')
 end
 
 # Examples:
