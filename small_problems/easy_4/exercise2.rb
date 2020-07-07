@@ -8,9 +8,7 @@
 # comprise the 20th century.
 
 def century(year)
-  cent.to_s = year / 100 + 1
-  # case cent
-  # when
+  # code
 end
 
 # year / 100 + 1
