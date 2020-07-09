@@ -7,12 +7,11 @@
 # Words consist of any string of characters that do not include a space.
 
 def word_sizes(str)
-  occurences = {}
-  occurences.default = 0
+  occurrences = Hash.new(0)
   str.split.each do |word|
-    occurences[word.length] += 1
+    occurrences[word.length] += 1
   end
-  occurences
+  occurrences
 end
 
 # Examples
