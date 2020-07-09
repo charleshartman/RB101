@@ -4,16 +4,17 @@
 # contains the value of the original string with all consecutive duplicate
 # characters collapsed into a single character. You may not use
 # String#squeeze or String#squeeze!.
-require 'pry'
+
+# require 'pry'
 
 def crunch(str)
-  indie = str.chars
-  indie.each_with_index do |char, idx|
-    # binding.pry
-    indie.delete_at(idx) if char[idx] == char[idx + 1]
-    # p indie
+  manual_squeeze = ''
+  index = 0
+  while index <= str.length - 1
+    manual_squeeze << str[index] unless str[index] == str[index + 1]
+    index += 1
   end
-  p indie.join
+  manual_squeeze
 end
 
 # Examples:
