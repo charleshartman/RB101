@@ -14,6 +14,12 @@ spin_me("hello world") # "olleh dlrow"
 
 this returns a different object. the minute the str is split it becomes a different object.
 
+```ruby
+str = 'hello world'
+puts str.object_id # 47435609148580
+puts spin_me(str).object_id # 47435609148360
+```
+
 as per book, if you passed it an array then the return would be the same object since .reverse! mutates in place.
 
 ```ruby
