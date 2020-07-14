@@ -119,15 +119,22 @@ def computer_places_piece!(brd)
 
   # be defensive
   WINNING_LINES.each do |line|
-    square = find_at_risk_square(line, brd, PLAYER_MARKER)
+    square = find_at_risk_square(line, brd, COMPUTER_MARKER)
     break if square
   end
 
   # else offensive
   if !square
     WINNING_LINES.each do |line|
-      square = find_at_risk_square(line, brd, COMPUTER_MARKER)
+      square = find_at_risk_square(line, brd, PLAYER_MARKER)
       break if square
+    end
+  end
+
+  # is 5 available
+  if !square
+    if empty_squares(brd).include?(5)
+      square = 5
     end
   end
 
