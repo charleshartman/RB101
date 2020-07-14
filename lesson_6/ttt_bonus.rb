@@ -47,7 +47,8 @@ def show_header
   clear_screen
   puts ''
   prompt("*** Welcome (back) to Tic Tac Toe! ***")
-  prompt("* Win five games to win the match. *")
+  prompt("** Win five games to win the match. **")
+  # And also, eternal glory... cus, TTT, bro...
   puts ''
   prompt("You are #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}.")
 end
@@ -106,6 +107,7 @@ def player_places_piece!(brd)
 end
 
 def computer_places_piece!(brd)
+  # defensive logic here
   square = empty_squares(brd).sample
   brd[square] = COMPUTER_MARKER
 end
@@ -130,7 +132,6 @@ def detect_winner(brd)
 end
 
 loop do
-  # intro and current score here
 
   reset_scoreboard(scoreboard)
 
@@ -158,9 +159,11 @@ loop do
     else
       prompt("It's a tie!\n\n")
     end
-    # check score for match winner here
+
     show_scoreboard(scoreboard)
     sleep 2.25
+
+    # eventually move this out to its own method
     if scoreboard[:Player] == 5
       puts ''
       prompt("*** You have won five rounds! You win the match! ***")
