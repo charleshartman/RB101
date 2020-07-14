@@ -1,8 +1,6 @@
 # ttt_bonus.rb
 # Tic Tac Toe Bonus Features Assignment
 
-require 'pry'
-
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
 COMPUTER_MARKER = 'O'
@@ -117,13 +115,13 @@ end
 def computer_places_piece!(brd)
   square = nil
 
-  # be defensive
+  # be offensive
   WINNING_LINES.each do |line|
     square = find_at_risk_square(line, brd, COMPUTER_MARKER)
     break if square
   end
 
-  # else offensive
+  # else defensive
   if !square
     WINNING_LINES.each do |line|
       square = find_at_risk_square(line, brd, PLAYER_MARKER)
@@ -131,7 +129,7 @@ def computer_places_piece!(brd)
     end
   end
 
-  # otherwise 5, then random
+  # otherwise choose 5, if N/A then random
   if !square
     if empty_squares(brd).include?(5)
       square = 5
