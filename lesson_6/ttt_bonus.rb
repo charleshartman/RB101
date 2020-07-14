@@ -115,13 +115,13 @@ end
 def computer_places_piece!(brd)
   square = nil
 
-  # be offensive
+  # offensive if two
   WINNING_LINES.each do |line|
     square = find_at_risk_square(line, brd, COMPUTER_MARKER)
     break if square
   end
 
-  # else defensive
+  # else defensive if two
   if !square
     WINNING_LINES.each do |line|
       square = find_at_risk_square(line, brd, PLAYER_MARKER)
@@ -129,14 +129,9 @@ def computer_places_piece!(brd)
     end
   end
 
-  # otherwise choose 5, if N/A then random
-  if !square
-    if empty_squares(brd).include?(5)
-      square = 5
-    else
-      square = empty_squares(brd).sample
-    end
-  end
+  square = 5 if empty_squares(brd).include?(5)    # take 5 if available
+
+  square = empty_squares(brd).sample if !square   # else choose random opening
 
   brd[square] = COMPUTER_MARKER
 end
