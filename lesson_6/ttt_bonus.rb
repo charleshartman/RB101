@@ -131,16 +131,13 @@ def computer_places_piece!(brd)
     end
   end
 
-  # is 5 available
+  # otherwise 5, then random
   if !square
     if empty_squares(brd).include?(5)
       square = 5
+    else
+      square = empty_squares(brd).sample
     end
-  end
-
-  # otherwise randomize
-  if !square
-    square = empty_squares(brd).sample
   end
 
   brd[square] = COMPUTER_MARKER
