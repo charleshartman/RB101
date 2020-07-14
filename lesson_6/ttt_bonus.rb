@@ -5,6 +5,8 @@ INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
 COMPUTER_MARKER = 'O'
 
+GOES_FIRST = 'player' # set to 'player', 'computer' or 'choose'
+
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # columns
                 [[1, 5, 9], [3, 5, 7]]              # diagonals
@@ -156,22 +158,33 @@ def detect_winner(brd)
 end
 
 loop do
-
   reset_scoreboard(scoreboard)
 
   loop do
     board = initialize_board
 
     loop do
-      display_board(board)
+      case GOES_FIRST
+      when 'player'
+        display_board(board)
+        show_scoreboard(scoreboard)
 
-      show_scoreboard(scoreboard)
+        player_places_piece!(board)
+        break if someone_won?(board) || board_full?(board)
 
-      player_places_piece!(board)
-      break if someone_won?(board) || board_full?(board)
+        computer_places_piece!(board)
+        break if someone_won?(board) || board_full?(board)
 
-      computer_places_piece!(board)
-      break if someone_won?(board) || board_full?(board)
+      when 'computer'
+        computer_places_piece!(board)
+        break if someone_won?(board) || board_full?(board)
+
+        display_board(board)
+        show_scoreboard(scoreboard)
+
+        player_places_piece!(board)
+        break if someone_won?(board) || board_full?(board)
+      end
     end
 
     display_board(board)
