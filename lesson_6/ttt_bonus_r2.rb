@@ -11,8 +11,6 @@ WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # columns
                 [[1, 5, 9], [3, 5, 7]]              # diagonals
 
-# current_player = ''
-
 def clear_screen
   system 'clear'
   system 'cls'
@@ -38,7 +36,7 @@ end
 
 def show_scoreboard(scoreboard)
   prompt("Match scoreboard | Player: #{scoreboard[:Player]}, " \
-                 "Computer: #{scoreboard[:Computer]}\n\n")
+                 "Computer: #{scoreboard[:Computer]} |\n\n")
 end
 
 def prompt(msg)
@@ -48,7 +46,7 @@ end
 def show_header
   clear_screen
   puts ''
-  prompt("*** Welcome (back) to Tic Tac Toe! ***")
+  prompt("*** Welcome (back) to Tic-Tac-Toe! ***")
   prompt("** Win five games to win the match. **")
   puts ''
   prompt("You are #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}.")
@@ -116,11 +114,10 @@ end
 def alternate_player(current_player)
   case current_player
   when 'player'
-    current_player = 'computer'
+    'computer'
   when 'computer'
-    current_player = 'player'
+    'player'
   end
-  current_player
 end
 
 def place_piece!(board, current_player)
@@ -179,10 +176,10 @@ end
 loop do
   if GOES_FIRST == 'choose'
     show_header
-    prompt('Who goes first? (player/computer)')
+    prompt("Who goes first? (player/computer)\n\n")
     choice = gets.chomp.downcase
     unless choice == 'player' || choice == 'computer'
-      prompt('Invalid choice, bro. Try again!')
+      prompt('Invalid choice. Please try again!')
       sleep 1.25
       next
     end
@@ -243,4 +240,4 @@ loop do
   break unless answer.downcase.start_with?('y')
 end
 
-prompt('Thank you for playing Tic Tac Toe! Goodbye.')
+prompt('Thank you for playing Tic-Tac-Toe! Goodbye.')
