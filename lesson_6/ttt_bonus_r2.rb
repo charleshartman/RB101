@@ -11,6 +11,8 @@ WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # columns
                 [[1, 5, 9], [3, 5, 7]]              # diagonals
 
+# current_player = ''
+
 def clear_screen
   system 'clear'
   system 'cls'
@@ -111,6 +113,25 @@ def find_at_risk_square(line, board, marker)
   end
 end
 
+def alternate_player(current_player)
+  case current_player
+  when 'player'
+    current_player = 'computer'
+  when 'computer'
+    current_player = 'player'
+  end
+  current_player
+end
+
+def place_piece!(board, current_player)
+  if current_player == 'player'
+    player_places_piece!(board)
+  elsif current_player == 'computer'
+    computer_places_piece!(board)
+  end
+end
+
+# rubocop:disable Metrics/CyclomaticComplexity
 def computer_places_piece!(brd)
   square = nil
 
@@ -134,6 +155,7 @@ def computer_places_piece!(brd)
 
   brd[square] = COMPUTER_MARKER
 end
+# rubocop:enable Metrics/CyclomaticComplexity
 
 def board_full?(brd)
   empty_squares(brd).empty?
@@ -172,27 +194,21 @@ loop do
   loop do
     board = initialize_board
 
+    if GOES_FIRST == 'player' || choice == 'player'
+      current_player = 'player'
+    elsif GOES_FIRST == 'computer' || choice == 'computer'
+      current_player = 'computer'
+    end
+
     loop do
-      if GOES_FIRST == 'player' || choice == 'player'
-        display_board(board)
-        show_scoreboard(scoreboard)
+      display_board(board)
+      show_scoreboard(scoreboard)
 
-        player_places_piece!(board)
-        break if someone_won?(board) || board_full?(board)
+      place_piece!(board, current_player)
+      display_board(board)
 
-        computer_places_piece!(board)
-        break if someone_won?(board) || board_full?(board)
-
-      elsif GOES_FIRST == 'computer' || choice == 'computer'
-        computer_places_piece!(board)
-        break if someone_won?(board) || board_full?(board)
-
-        display_board(board)
-        show_scoreboard(scoreboard)
-
-        player_places_piece!(board)
-        break if someone_won?(board) || board_full?(board)
-      end
+      current_player = alternate_player(current_player)
+      break if someone_won?(board) || board_full?(board)
     end
 
     display_board(board)
