@@ -351,32 +351,32 @@ Style/ZeroLengthPredicate:
   Description: 'empty? instead of length == 0'
   Enabled: false
 
-Lint/DuplicateElsifCondition:
-  Enabled: false
-
-Style/AccessorGrouping:
-  Enabled: false
-
-Style/ArrayCoercion:
-  Enabled: false
-
-Style/BisectedAttrAccessor:
-  Enabled: false
-
-Style/CaseLikeIf:
-  Enabled: false
-
-Style/HashAsLastArrayItem:
-  Enabled: false
-
-Style/HashLikeCase:
-  Enabled: false
-
-Style/RedundantAssignment:
-  Enabled: false
-
-Style/RedundantFetchBlock:
-  Enabled: false
-
-Style/RedundantFileExtensionInRequire:
-  Enabled: false
+# Lint/DuplicateElsifCondition:
+#   Enabled: false
+# 
+# Style/AccessorGrouping:
+#   Enabled: false
+# 
+# Style/ArrayCoercion:
+#   Enabled: false
+# 
+# Style/BisectedAttrAccessor:
+#   Enabled: false
+# 
+# Style/CaseLikeIf:
+#   Enabled: false
+# 
+# Style/HashAsLastArrayItem:
+#   Enabled: false
+# 
+# Style/HashLikeCase:
+#   Enabled: false
+# 
+# Style/RedundantAssignment:
+#   Enabled: false
+# 
+# Style/RedundantFetchBlock:
+#   Enabled: false
+# 
+# Style/RedundantFileExtensionInRequire:
+#   Enabled: false
