@@ -5,7 +5,7 @@ INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
 COMPUTER_MARKER = 'O'
 
-GOES_FIRST = 'player' # set to 'player', 'computer' or 'choose'
+GOES_FIRST = 'choose' # set to 'player', 'computer' or 'choose'
 
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # columns
@@ -158,14 +158,26 @@ def detect_winner(brd)
 end
 
 loop do
+  if GOES_FIRST == 'choose'
+    show_header
+    prompt('Who goes first? (player/computer)')
+    choice = gets.chomp.downcase
+    unless choice == 'player' || choice == 'computer'
+      prompt('Invalid choice, bro. Try again!')
+      sleep 1.25
+      next
+    end
+  else
+    nil
+  end
+
   reset_scoreboard(scoreboard)
 
   loop do
     board = initialize_board
 
     loop do
-      case GOES_FIRST
-      when 'player'
+      if GOES_FIRST == 'player' || choice == 'player'
         display_board(board)
         show_scoreboard(scoreboard)
 
@@ -175,7 +187,7 @@ loop do
         computer_places_piece!(board)
         break if someone_won?(board) || board_full?(board)
 
-      when 'computer'
+      elsif GOES_FIRST == 'computer' || choice == 'computer'
         computer_places_piece!(board)
         break if someone_won?(board) || board_full?(board)
 
