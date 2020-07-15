@@ -109,8 +109,8 @@ end
 def find_at_risk_square(line, board, marker)
   if board.values_at(*line).count(marker) == 2
     board.select { |k, v| line.include?(k) && v == INITIAL_MARKER }.keys.first
-  else
-    nil
+    # else
+    # nil
   end
 end
 
@@ -167,7 +167,6 @@ loop do
       sleep 1.25
       next
     end
-  else
     nil
   end
 
