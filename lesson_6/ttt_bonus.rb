@@ -1,5 +1,5 @@
 # ttt_bonus.rb
-# Tic Tac Toe Bonus Features Assignment
+# Tic Tac Toe Bonus Features Assignment #1-5, #6+ @ 'ttt_bonus_r2.rb'
 
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
@@ -48,7 +48,6 @@ def show_header
   puts ''
   prompt("*** Welcome (back) to Tic Tac Toe! ***")
   prompt("** Win five games to win the match. **")
-  # And also, eternal glory... cus, TTT, bro...
   puts ''
   prompt("You are #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}.")
 end
@@ -109,8 +108,6 @@ end
 def find_at_risk_square(line, board, marker)
   if board.values_at(*line).count(marker) == 2
     board.select { |k, v| line.include?(k) && v == INITIAL_MARKER }.keys.first
-    # else
-    # nil
   end
 end
 
