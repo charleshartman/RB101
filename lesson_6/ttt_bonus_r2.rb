@@ -35,21 +35,39 @@ def reset_scoreboard(scoreboard)
 end
 
 def show_scoreboard(scoreboard)
-  prompt("Match scoreboard | Player: #{scoreboard[:Player]}, " \
-                 "Computer: #{scoreboard[:Computer]} |\n\n")
+  prompt_center("Match scoreboard | Player: #{scoreboard[:Player]}, " \
+                "Computer: #{scoreboard[:Computer]} |\n\n")
+end
+
+def check_scoreboard(scoreboard)
+  if scoreboard[:Player] == 5
+    puts ''
+    prompt("*** You have won five rounds! You win the match! ***")
+    puts ''
+    true
+  elsif scoreboard[:Computer] == 5
+    puts ''
+    prompt("Computer has won five rounds! Computer wins the match!")
+    puts ''
+    true
+  end
 end
 
 def prompt(msg)
   puts "=> #{msg}"
 end
 
+def prompt_center(msg)
+  puts msg.center(39)
+end
+
 def show_header
   clear_screen
   puts ''
-  prompt("*** Welcome (back) to Tic-Tac-Toe! ***")
-  prompt("** Win five games to win the match. **")
+  prompt_center("*** Welcome (back) to Tic-Tac-Toe! ***")
+  prompt_center("** Win five games to win the match. **")
   puts ''
-  prompt("You are #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}.")
+  prompt_center("You are #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}.\n\n")
 end
 
 # rubocop:disable Metrics/AbcSize
@@ -67,6 +85,7 @@ def display_board(brd)
   puts '     |     |'
   puts "  #{brd[7]}  |  #{brd[8]}  |  #{brd[9]}"
   puts '     |     |'
+  puts ''
   puts ''
 end
 # rubocop:enable Metrics/AbcSize
@@ -99,7 +118,7 @@ def player_places_piece!(brd)
     square = gets.chomp.to_i
     break if empty_squares(brd).include?(square)
 
-    prompt("Sorry, that's not a valid choice.")
+    prompt("Sorry, that is not a valid choice.")
   end
 
   brd[square] = PLAYER_MARKER
@@ -128,7 +147,6 @@ def place_piece!(board, current_player)
   end
 end
 
-# rubocop:disable Metrics/CyclomaticComplexity
 def computer_places_piece!(brd)
   square = nil
 
@@ -152,7 +170,6 @@ def computer_places_piece!(brd)
 
   brd[square] = COMPUTER_MARKER
 end
-# rubocop:enable Metrics/CyclomaticComplexity
 
 def board_full?(brd)
   empty_squares(brd).empty?
@@ -221,18 +238,7 @@ loop do
     show_scoreboard(scoreboard)
     sleep 2.25
 
-    # eventually move this out to its own method
-    if scoreboard[:Player] == 5
-      puts ''
-      prompt("*** You have won five rounds! You win the match! ***")
-      puts ''
-      break
-    elsif scoreboard[:Computer] == 5
-      puts ''
-      prompt("Computer has won five rounds! Computer wins the match!")
-      puts ''
-      break
-    end
+    break if check_scoreboard(scoreboard)
   end
 
   prompt('Do you want to play another match? (y or n)')
