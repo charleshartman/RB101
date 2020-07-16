@@ -351,6 +351,8 @@ Style/ZeroLengthPredicate:
   Description: 'empty? instead of length == 0'
   Enabled: false
 
+# uncomment below for rubocop version 0.88.0
+
 # Lint/DuplicateElsifCondition:
 #   Enabled: false
 # 
