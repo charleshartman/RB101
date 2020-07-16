@@ -7,32 +7,14 @@
 # end at the upper-right.
 
 def triangle(int)
-  # code
+  stars = 1
+  while stars <= int
+    spaces = int - stars
+    puts (" " * spaces) + ("*" * stars)
+    stars += 1
+  end
 end
 
 triangle(5)
 triangle(9)
-
-=begin
-
-Examples:
-triangle(5)
-
-    *
-   **
-  ***
- ****
-*****
-triangle(9)
-
-        *
-       **
-      ***
-     ****
-    *****
-   ******
-  *******
- ********
-*********
-
-=end
+triangle(21)
