@@ -42,12 +42,12 @@ end
 def check_scoreboard(scoreboard)
   if scoreboard[:Player] == 5
     puts ''
-    prompt("*** You have won five rounds! You win the match! ***")
+    prompt_center("*** You have won five rounds! You win the match! ***")
     puts ''
     true
   elsif scoreboard[:Computer] == 5
     puts ''
-    prompt("Computer has won five rounds! Computer wins the match!")
+    prompt_center("Computer has won five rounds! Computer wins the match!")
     puts ''
     true
   end
@@ -58,7 +58,7 @@ def prompt(msg)
 end
 
 def prompt_center(msg)
-  puts msg.center(39)
+  puts "\e[32m#{msg}\e[0m"
 end
 
 def show_header
@@ -166,7 +166,7 @@ def computer_places_piece!(brd)
 
   square = 5 if empty_squares(brd).include?(5)    # take 5 if available
 
-  square = empty_squares(brd).sample if !square   # else choose random opening
+  square = empty_squares(brd).sample if !square   # else take random open square
 
   brd[square] = COMPUTER_MARKER
 end
@@ -200,7 +200,6 @@ loop do
       sleep 1.25
       next
     end
-    nil
   end
 
   reset_scoreboard(scoreboard)
@@ -246,4 +245,5 @@ loop do
   break unless answer.downcase.start_with?('y')
 end
 
-prompt('Thank you for playing Tic-Tac-Toe! Goodbye.')
+puts ''
+prompt_center('Thank you for playing Tic-Tac-Toe! Goodbye.')
