@@ -14,7 +14,6 @@ def interleave(arr1, arr2)
     new << arr1.shift << arr2.shift
     len -= 1
   end
-
   new
 end
 
