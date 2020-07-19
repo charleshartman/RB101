@@ -339,3 +339,9 @@ Style/InverseMethods:
 Style/ZeroLengthPredicate:
   Description: 'empty? instead of length == 0'
   Enabled: false
+
+# user adjustments
+
+Style/EmptyCaseCondition:
+  Description: Do not use empty `case` condition, instead use an `if` expression.
+  Enabled: false

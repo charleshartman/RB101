@@ -1,4 +1,4 @@
-# exercise4.rb - All Substrings
+# exercise4_alt.rb - All Substrings
 
 # Write a method that returns a list of all substrings of a string.
 # The returned list should be ordered by where in the string the substring
