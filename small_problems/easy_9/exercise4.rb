@@ -6,20 +6,22 @@
 # You may assume that the argument will always be a valid integer that
 # is greater than 0.
 
-=begin # first thought
-
-def sequence(int)
-  arr = []
-  1.upto(int) { |num| arr << num }
-  arr
-end
-
-=end
+# first thought
+# def sequence(int)
+#   arr = []
+#   1.upto(int) { |num| arr << num }
+#   arr
+# end
 
 # second thought
 def sequence(int)
   (1..int).inject([]) { |arr, num| arr << num }
 end
+
+# book solution much simpler
+# def sequence(number)
+#   (1..number).to_a
+# end
 
 # Examples:
 p sequence(5) == [1, 2, 3, 4, 5]
