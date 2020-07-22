@@ -1,7 +1,11 @@
 # twenty_one.rb - intial lesson implementation of '21' aka Blackjack
 
 SUITS = ['H', 'D', 'S', 'C']
-CARDS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+CARDS = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+         'Jack', 'Queen', 'King']
+VALUES = { 'Ace' => [1, 11], '2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6,
+           '7' => 7, '8' => 8, '9' => 9, '10' => 10, "Jack" => 10,
+           'Queen' => 10, 'King' => 10 }
 SYMBOLS = { "S" => "\u2660", "H" => "\u2665", "D" => "\u2666",
             "C" => "\u2663", "smile" => "\u{1F600}", "pcard" => "\u{1F0CF}" }
 
@@ -56,11 +60,17 @@ def deal_card(deck, hand)
   hand << deck.shift
 end
 
+def total_hand(hand)
+  total = 0
+  hand.each { |val| total += VALUES[val[1]] }
+  p total
+end
+
 def display_initial_hands(dealer_hand, player_hand)
-  puts "Dealer has the #{dealer_hand[0][1]} of #{SYMBOLS[dealer_hand[0][0]]} " \
-       "and the (hidden)."
-  puts "Player had the #{player_hand[0][1]} of #{SYMBOLS[player_hand[0][0]]} " \
-       "and the #{player_hand[1][1]} of #{SYMBOLS[player_hand[1][0]]}."
+  puts "Dealer has [#{dealer_hand[0][1]} of #{SYMBOLS[dealer_hand[0][0]]}] " \
+       "and [hidden].\n\n"
+  puts "Player has [#{player_hand[0][1]} of #{SYMBOLS[player_hand[0][0]]}] " \
+       "and [#{player_hand[1][1]} of #{SYMBOLS[player_hand[1][0]]}].\n\n"
 end
 
 loop do
@@ -69,6 +79,16 @@ loop do
   deck = deck_builder(SUITS, CARDS)
   initial_deal(deck, player_hand, dealer_hand)
   display_initial_hands(dealer_hand, player_hand)
+
+  answer = nil
+  loop do
+    prompt("Would you like to hit or stay?")
+    answer = gets.chomp
+    break if answer == 'stay' # || busted?
+    deal_card(deck, player_hand)
+    puts "Player gets [#{player_hand[-1][1]} of #{SYMBOLS[player_hand[-1][0]]}]"
+    p total_hand(player_hand)
+  end
 
   break # remove and continue writing with player turn
 end
@@ -92,9 +112,10 @@ end
 # welcome/intro text x
 # def deck_builder x
 # def draw_card x
+# constant for values
 # def value_aces
 # def total_cards
-# def display_initial_hands
+# def display_initial_hands x
 # def display_cards
 # def who_wins?
 # def display_winner
