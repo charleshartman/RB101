@@ -35,19 +35,19 @@ def reset_scoreboard(scoreboard)
 end
 
 def show_scoreboard(scoreboard)
-  prompt_center("Match scoreboard | Player: #{scoreboard[:Player]}, " \
+  prompt_green("Match scoreboard | Player: #{scoreboard[:Player]}, " \
                 "Computer: #{scoreboard[:Computer]} |\n\n")
 end
 
 def check_scoreboard(scoreboard)
   if scoreboard[:Player] == 5
     puts ''
-    prompt_center("*** You have won five rounds! You win the match! ***")
+    prompt_green("*** You have won five rounds! You win the match! ***")
     puts ''
     true
   elsif scoreboard[:Computer] == 5
     puts ''
-    prompt_center("Computer has won five rounds! Computer wins the match!")
+    prompt_green("Computer has won five rounds! Computer wins the match!")
     puts ''
     true
   end
@@ -57,17 +57,17 @@ def prompt(msg)
   puts "=> #{msg}"
 end
 
-def prompt_center(msg)
+def prompt_green(msg)
   puts "\e[32m#{msg}\e[0m"
 end
 
 def show_header
   clear_screen
   puts ''
-  prompt_center("*** Welcome (back) to Tic-Tac-Toe! ***")
-  prompt_center("** Win five games to win the match. **")
+  prompt_green("*** Welcome (back) to Tic-Tac-Toe! ***")
+  prompt_green("** Win five games to win the match. **")
   puts ''
-  prompt_center("You are #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}.\n\n")
+  prompt_green("You are #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}.\n\n")
 end
 
 # rubocop:disable Metrics/AbcSize
@@ -246,4 +246,4 @@ loop do
 end
 
 puts ''
-prompt_center('Thank you for playing Tic-Tac-Toe! Goodbye.')
+prompt_green('Thank you for playing Tic-Tac-Toe! Goodbye.')
