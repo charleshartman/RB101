@@ -3,7 +3,7 @@
 SUITS = ['H', 'D', 'S', 'C']
 CARDS = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10',
          'Jack', 'Queen', 'King']
-VALUES = { 'Ace' => [1, 11], '2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6,
+VALUES = { 'Ace' => 11, '2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6,
            '7' => 7, '8' => 8, '9' => 9, '10' => 10, "Jack" => 10,
            'Queen' => 10, 'King' => 10 }
 SYMBOLS = { "S" => "\u2660", "H" => "\u2665", "D" => "\u2666",
@@ -18,7 +18,7 @@ def clear_screen
 end
 
 def prompt(msg)
-  puts "=> #{msg}"
+  print "=> #{msg} "
 end
 
 def prompt_green(msg)
@@ -60,10 +60,39 @@ def deal_card(deck, hand)
   hand << deck.shift
 end
 
+# def total_hand(hand)
+#   values = hand.map { |card| card[1] }
+#
+#   total = 0
+#   values.each do |value|
+#     if value == "Ace"
+#       total += 11
+#     elsif value.to_i == 0
+#       total += 10
+#     else
+#       total += value.to_i
+#     end
+#   end
+#
+#   # Adjust for Aces
+#   values.select { |value| value == "Ace" }.count.times do
+#     total -= 10 if total > 21
+#   end
+#   total
+# end
+
 def total_hand(hand)
+  values = hand.map { |card| card[1] }
   total = 0
   hand.each { |val| total += VALUES[val[1]] }
-  p total
+  values.select { |val| val == 'Ace' }.count.times do
+    total -= 10 if total > 21
+  end
+  total
+end
+
+def busted?(hand)
+  total_hand(hand) > 21
 end
 
 def display_initial_hands(dealer_hand, player_hand)
@@ -84,10 +113,18 @@ loop do
   loop do
     prompt("Would you like to hit or stay?")
     answer = gets.chomp
-    break if answer == 'stay' # || busted?
+    break if answer == 'stay'
     deal_card(deck, player_hand)
-    puts "Player gets [#{player_hand[-1][1]} of #{SYMBOLS[player_hand[-1][0]]}]"
-    p total_hand(player_hand)
+    puts "Player is dealt [#{player_hand[-1][1]} of " \
+         "#{SYMBOLS[player_hand[-1][0]]}]"
+    puts "The current total of your hand is #{total_hand(player_hand)}.\n\n"
+    break if busted?(player_hand)
+  end
+
+  if busted?(player_hand)
+    prompt_green("You busted! Dealer Wins!")
+  else
+    prompt_green("You stay with #{total_hand(player_hand)}.")
   end
 
   break # remove and continue writing with player turn
