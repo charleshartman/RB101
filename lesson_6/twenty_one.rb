@@ -57,27 +57,6 @@ def deal_card(deck, hand)
   hand << deck.shift
 end
 
-# def total_hand(hand)
-#   values = hand.map { |card| card[1] }
-#
-#   total = 0
-#   values.each do |value|
-#     if value == "Ace"
-#       total += 11
-#     elsif value.to_i == 0
-#       total += 10
-#     else
-#       total += value.to_i
-#     end
-#   end
-#
-#   # Adjust for Aces
-#   values.select { |value| value == "Ace" }.count.times do
-#     total -= 10 if total > 21
-#   end
-#   total
-# end
-
 def total_hand(hand)
   values = hand.map { |card| card[1] }
   total = 0
@@ -96,10 +75,10 @@ def who_wins?(dealer_hand, player_hand)
   if total_hand(dealer_hand) == total_hand(player_hand)
     'push'
   elsif total_hand(dealer_hand) > total_hand(player_hand) \
-    && total_hand(dealer_hand) < 22
+    && !busted?(dealer_hand)
     'dealer'
   elsif total_hand(player_hand) > total_hand(dealer_hand) \
-    && total_hand(player_hand) < 22
+    && !busted?(player_hand)
     'player'
   end
 end
@@ -177,6 +156,7 @@ loop do
       else
         prompt_green("Dealer stays with #{total_hand(dealer_hand)}.\n\n")
       end
+
     end
 
     winner = who_wins?(dealer_hand, player_hand)
@@ -203,8 +183,8 @@ prompt_green('Thank you for playing Twenty-One! Goodbye.')
 # 6. If dealer bust, player wins.
 # 7. Compare cards and declare winner.
 
-# my list of parts so far
-# -----------------------
+# list of parts
+# -------------
 # def prompt x
 # def clear x
 # constant for suits (spelled out or unicode) x
