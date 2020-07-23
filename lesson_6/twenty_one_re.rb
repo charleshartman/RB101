@@ -68,34 +68,48 @@ def total_hand(hand)
   total
 end
 
+def current_score(dealer_hand, player_hand)
+  puts "Dealer total is #{total_hand(dealer_hand)}, player total is " \
+           "#{total_hand(player_hand)}.\n\n"
+end
+
 def busted?(hand)
   total_hand(hand) > 21
 end
 
+def play_again?
+  prompt("Would you like to play another hand? (y/n)")
+  answer = gets.chomp
+  answer.downcase.start_with?('y')
+end
+
 def who_wins?(dealer_hand, player_hand)
-  if total_hand(dealer_hand) == total_hand(player_hand)
+  if total_hand(player_hand) > 21
+    'player_busted'
+  elsif total_hand(dealer_hand) > 21
+    'dealer_busted'
+  elsif total_hand(dealer_hand) == total_hand(player_hand)
     'push'
-  elsif total_hand(dealer_hand) > total_hand(player_hand) \
-    && !busted?(dealer_hand)
+  elsif total_hand(dealer_hand) > total_hand(player_hand)
     'dealer'
-  elsif total_hand(player_hand) > total_hand(dealer_hand) \
-    && !busted?(player_hand)
+  elsif total_hand(player_hand) > total_hand(dealer_hand)
     'player'
   end
 end
 
-def report_result(dealer_hand, player_hand, winner)
-  if winner == 'player'
-    puts "You have #{total_hand(player_hand)}, dealer has " \
-         "#{total_hand(dealer_hand)}."
-    prompt_green("You win!\n\n")
-  elsif winner == 'dealer'
-    puts "Dealer has #{total_hand(dealer_hand)}, you have " \
-         "#{total_hand(player_hand)}."
+def report_result(dealer_hand, player_hand)
+  result = who_wins?(dealer_hand, player_hand)
+
+  case result
+  when 'player_busted'
+    prompt_green("Player busted! Dealer wins!\n\n")
+  when 'dealer_busted'
+    prompt_green("Dealer busted! Player wins!\n\n")
+  when 'player'
+    prompt_green("Player wins!\n\n")
+  when 'dealer'
     prompt_green("Dealer wins!\n\n")
-  elsif winner == 'push'
-    puts "You have #{total_hand(player_hand)}, dealer has " \
-         "#{total_hand(dealer_hand)}."
+  when 'push'
     prompt_green("Hand is tied, pushed!\n\n")
   end
 end
@@ -108,73 +122,68 @@ def display_initial_hands(dealer_hand, player_hand)
 end
 
 loop do
+  player_hand = []
+  dealer_hand = []
+  display_header
+
+  deck = deck_builder(SUITS, CARDS)
+  initial_deal(deck, player_hand, dealer_hand)
+  display_initial_hands(dealer_hand, player_hand)
+
   loop do
-    player_hand = []
-    dealer_hand = []
-
-    display_header
-
-    deck = deck_builder(SUITS, CARDS)
-    initial_deal(deck, player_hand, dealer_hand)
-    display_initial_hands(dealer_hand, player_hand)
-
+    answer = nil
     loop do
-      answer = nil
-      loop do
-        prompt("Would you like to (h)it or (s)tay?")
-        answer = gets.chomp.downcase
-        break if answer == 's' || answer == 'h'
-        puts "=> Invalid input, you must enter 'h' or 's'.\n\n"
-      end
-
-      if answer == 'h'
-        deal_card(deck, player_hand)
-        puts "Player is dealt [#{player_hand[-1][1]} of " \
-             "#{SYMBOLS[player_hand[-1][0]]}]"
-        puts "The total of your hand is #{total_hand(player_hand)}.\n\n"
-      end
-
-      break if answer == 's' || busted?(player_hand)
+      prompt("Would you like to (h)it or (s)tay?")
+      answer = gets.chomp.downcase
+      break if answer == 's' || answer == 'h'
+      puts "=> Invalid input, you must enter 'h' or 's'.\n\n"
     end
 
-    if busted?(player_hand)
-      prompt_green("You busted! Dealer Wins!\n\n")
-      break
-    else
-      prompt_green("You stay with #{total_hand(player_hand)}.\n\n")
+    if answer == 'h'
+      deal_card(deck, player_hand)
+      puts "Player is dealt [#{player_hand[-1][1]} of " \
+           "#{SYMBOLS[player_hand[-1][0]]}]"
+      puts "The total of your hand is #{total_hand(player_hand)}.\n\n"
     end
 
-    prompt_green("Dealer reveals hole card...the dealer's hand is:")
-    sleep 1.00
-    puts "[#{dealer_hand[0][1]} of #{SYMBOLS[dealer_hand[0][0]]}] " \
-         "and [#{dealer_hand[1][1]} of #{SYMBOLS[dealer_hand[1][0]]}].\n\n"
-    puts "The total of the dealer's hand is #{total_hand(dealer_hand)}.\n\n"
-
-    while total_hand(dealer_hand) < 17
-      puts "Dealer hits..."
-      sleep 1.00
-      deal_card(deck, dealer_hand)
-      puts "Dealer is dealt [#{dealer_hand[-1][1]} of " \
-           "#{SYMBOLS[dealer_hand[-1][0]]}]"
-      puts "The total of the dealer's hand is #{total_hand(dealer_hand)}.\n\n"
-
-      if busted?(dealer_hand)
-        prompt_green("Dealer busted! You win!\n\n")
-        break
-      elsif total_hand(dealer_hand) >= 17
-        prompt_green("Dealer stays with #{total_hand(dealer_hand)}.\n\n")
-      end
-
-    end
-
-    winner = who_wins?(dealer_hand, player_hand)
-    report_result(dealer_hand, player_hand, winner)
-    break
+    break if answer == 's' || busted?(player_hand)
   end
 
-  prompt("Would you like to play another hand? (y/n)")
-  answer = gets.chomp
-  break unless answer.downcase.start_with?('y')
+  if busted?(player_hand)
+    current_score(dealer_hand, player_hand)
+    report_result(dealer_hand, player_hand)
+    play_again? ? next : break
+  else
+    prompt_green("You stay with #{total_hand(player_hand)}.\n\n")
+  end
+
+  prompt_green("Dealer reveals hole card...the dealer's hand is:")
+  sleep 1.00
+  puts "[#{dealer_hand[0][1]} of #{SYMBOLS[dealer_hand[0][0]]}] " \
+       "and [#{dealer_hand[1][1]} of #{SYMBOLS[dealer_hand[1][0]]}].\n\n"
+  puts "The total of the dealer's hand is #{total_hand(dealer_hand)}.\n\n"
+
+  loop do
+    break if total_hand(dealer_hand) >= 17
+
+    puts "Dealer hits..."
+    sleep 1.00
+    deal_card(deck, dealer_hand)
+    puts "Dealer is dealt [#{dealer_hand[-1][1]} of " \
+         "#{SYMBOLS[dealer_hand[-1][0]]}]"
+    puts "The total of the dealer's hand is #{total_hand(dealer_hand)}.\n\n"
+  end
+
+  if busted?(dealer_hand)
+    current_score(dealer_hand, player_hand)
+    report_result(dealer_hand, player_hand)
+    play_again? ? next : break
+  else
+    prompt_green("Dealer stays with #{total_hand(dealer_hand)}.\n\n")
+  end
+
+  report_result(dealer_hand, player_hand)
+  break unless play_again?
 end
 
 puts ''
