@@ -1,4 +1,4 @@
-# twenty_one.rb - intial lesson implementation of '21' aka Blackjack
+# twenty_one.rb - initial lesson implementation of '21' aka Blackjack
 
 SUITS = ['H', 'D', 'S', 'C']
 CARDS = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10',
@@ -153,7 +153,7 @@ loop do
       if busted?(dealer_hand)
         prompt_green("Dealer busted! You win!\n\n")
         break
-      else
+      elsif total_hand(dealer_hand) >= 17
         prompt_green("Dealer stays with #{total_hand(dealer_hand)}.\n\n")
       end
 
