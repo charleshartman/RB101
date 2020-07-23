@@ -9,9 +9,6 @@ VALUES = { 'Ace' => 11, '2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6,
 SYMBOLS = { "S" => "\u2660", "H" => "\u2665", "D" => "\u2666",
             "C" => "\u2663", "smile" => "\u{1F600}", "pcard" => "\u{1F0CF}" }
 
-player_hand = []
-dealer_hand = []
-
 def clear_screen
   system 'clear'
   system 'cls'
@@ -95,6 +92,18 @@ def busted?(hand)
   total_hand(hand) > 21
 end
 
+def who_wins?(dealer_hand, player_hand)
+  if total_hand(dealer_hand) > total_hand(player_hand)
+    puts "Dealer has #{total_hand(dealer_hand)}, you have " \
+         "#{total_hand(player_hand)}."
+    prompt_green("Dealer wins!")
+  else
+    puts "You have #{total_hand(player_hand)}, dealer has " \
+         "#{total_hand(dealer_hand)}."
+    prompt_green("You win!")
+  end
+end
+
 def display_initial_hands(dealer_hand, player_hand)
   puts "Dealer has [#{dealer_hand[0][1]} of #{SYMBOLS[dealer_hand[0][0]]}] " \
        "and [hidden].\n\n"
@@ -103,32 +112,69 @@ def display_initial_hands(dealer_hand, player_hand)
 end
 
 loop do
-  display_header
-
-  deck = deck_builder(SUITS, CARDS)
-  initial_deal(deck, player_hand, dealer_hand)
-  display_initial_hands(dealer_hand, player_hand)
-
-  answer = nil
   loop do
-    prompt("Would you like to hit or stay?")
-    answer = gets.chomp
-    break if answer == 'stay'
-    deal_card(deck, player_hand)
-    puts "Player is dealt [#{player_hand[-1][1]} of " \
-         "#{SYMBOLS[player_hand[-1][0]]}]"
-    puts "The current total of your hand is #{total_hand(player_hand)}.\n\n"
-    break if busted?(player_hand)
+    player_hand = []
+    dealer_hand = []
+    winner = ''
+    
+    display_header
+
+    deck = deck_builder(SUITS, CARDS)
+    initial_deal(deck, player_hand, dealer_hand)
+    display_initial_hands(dealer_hand, player_hand)
+
+    answer = nil
+    loop do
+      prompt("Would you like to hit or stay?")
+      answer = gets.chomp
+      break if answer == 'stay'
+      deal_card(deck, player_hand)
+      puts "Player is dealt [#{player_hand[-1][1]} of " \
+           "#{SYMBOLS[player_hand[-1][0]]}]"
+      puts "The total of your hand is #{total_hand(player_hand)}.\n\n"
+      break if busted?(player_hand)
+    end
+
+    if busted?(player_hand)
+      prompt_green("You busted! Dealer Wins!\n\n")
+      break
+    else
+      prompt_green("You stay with #{total_hand(player_hand)}.\n\n")
+    end
+
+    prompt_green("Dealer reveals hole card...the dealer's hand is:")
+    sleep 1.00
+    puts "[#{dealer_hand[0][1]} of #{SYMBOLS[dealer_hand[0][0]]}] " \
+         "and [#{dealer_hand[1][1]} of #{SYMBOLS[dealer_hand[1][0]]}].\n\n"
+    puts "The total of the dealer's hand is #{total_hand(dealer_hand)}.\n\n"
+
+    while total_hand(dealer_hand) < 17
+      puts "Dealer hits..."
+      sleep 1.00
+      deal_card(deck, dealer_hand)
+      puts "Dealer is dealt [#{dealer_hand[-1][1]} of " \
+           "#{SYMBOLS[dealer_hand[-1][0]]}]"
+      puts "The total of the dealer's hand is #{total_hand(dealer_hand)}.\n\n"
+
+      if busted?(dealer_hand)
+        prompt_green("Dealer busted! You win!\n\n")
+        break
+      else
+        prompt_green("Dealer stays with #{total_hand(dealer_hand)}.\n\n")
+      end
+    end
+    who_wins?(dealer_hand, player_hand)
+
+    break # remove and continue writing with player turn
   end
 
-  if busted?(player_hand)
-    prompt_green("You busted! Dealer Wins!")
-  else
-    prompt_green("You stay with #{total_hand(player_hand)}.")
-  end
-
-  break # remove and continue writing with player turn
+  prompt("Would you like to play another hand? (y/n)")
+  answer = gets.chomp
+  break unless answer.downcase.start_with?('y')
 end
+
+puts ''
+prompt_green('Thank you for playing Twenty-One! Goodbye.')
 
 # assignment high level implementation (book)
 # 1. Initialize deck
@@ -149,10 +195,9 @@ end
 # welcome/intro text x
 # def deck_builder x
 # def draw_card x
-# constant for values
-# def value_aces
-# def total_cards
+# constant for values x
+# def total_hand x
 # def display_initial_hands x
-# def display_cards
+# def display_cards x
 # def who_wins?
 # def display_winner
