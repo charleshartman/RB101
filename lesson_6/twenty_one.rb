@@ -93,14 +93,30 @@ def busted?(hand)
 end
 
 def who_wins?(dealer_hand, player_hand)
-  if total_hand(dealer_hand) > total_hand(player_hand)
-    puts "Dealer has #{total_hand(dealer_hand)}, you have " \
-         "#{total_hand(player_hand)}."
-    prompt_green("Dealer wins!")
-  else
+  if total_hand(dealer_hand) == total_hand(player_hand)
+    'push'
+  elsif total_hand(dealer_hand) > total_hand(player_hand) \
+    && total_hand(dealer_hand) < 22
+    'dealer'
+  elsif total_hand(player_hand) > total_hand(dealer_hand) \
+    && total_hand(player_hand) < 22
+    'player'
+  end
+end
+
+def report_result(dealer_hand, player_hand, winner)
+  if winner == 'player'
     puts "You have #{total_hand(player_hand)}, dealer has " \
          "#{total_hand(dealer_hand)}."
-    prompt_green("You win!")
+    prompt_green("You win!\n\n")
+  elsif winner == 'dealer'
+    puts "Dealer has #{total_hand(dealer_hand)}, you have " \
+         "#{total_hand(player_hand)}."
+    prompt_green("Dealer wins!\n\n")
+  elsif winner == 'push'
+    puts "You have #{total_hand(player_hand)}, dealer has " \
+         "#{total_hand(dealer_hand)}."
+    prompt_green("Hand is tied, pushed!\n\n")
   end
 end
 
@@ -115,8 +131,7 @@ loop do
   loop do
     player_hand = []
     dealer_hand = []
-    winner = ''
-    
+
     display_header
 
     deck = deck_builder(SUITS, CARDS)
@@ -163,9 +178,10 @@ loop do
         prompt_green("Dealer stays with #{total_hand(dealer_hand)}.\n\n")
       end
     end
-    who_wins?(dealer_hand, player_hand)
 
-    break # remove and continue writing with player turn
+    winner = who_wins?(dealer_hand, player_hand)
+    report_result(dealer_hand, player_hand, winner)
+    break
   end
 
   prompt("Would you like to play another hand? (y/n)")
@@ -199,5 +215,5 @@ prompt_green('Thank you for playing Twenty-One! Goodbye.')
 # def total_hand x
 # def display_initial_hands x
 # def display_cards x
-# def who_wins?
-# def display_winner
+# def who_wins? x
+# def report_result x
