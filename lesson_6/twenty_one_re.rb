@@ -16,7 +16,7 @@ def clear_screen
 end
 
 def prompt(msg)
-  print "=> #{msg} "
+  puts "\e[34m#{msg}\e[0m"
 end
 
 def prompt_green(msg)
@@ -78,7 +78,7 @@ def busted?(hand)
 end
 
 def play_again?
-  prompt("Would you like to play another hand? (y/n)")
+  prompt("Would you like to play another hand? (y/n) ")
   answer = gets.chomp
   answer.downcase.start_with?('y')
 end
@@ -110,7 +110,7 @@ def report_result(dealer_hand, player_hand)
   when 'dealer'
     prompt_green("Dealer wins!\n\n")
   when 'push'
-    prompt_green("Hand is tied, pushed!\n\n")
+    prompt_green("Hand is tied, push!\n\n")
   end
 end
 
@@ -154,7 +154,7 @@ loop do
     report_result(dealer_hand, player_hand)
     play_again? ? next : break
   else
-    prompt_green("You stay with #{total_hand(player_hand)}.\n\n")
+    prompt_green("Player stays with #{total_hand(player_hand)}.\n")
   end
 
   prompt_green("Dealer reveals hole card...the dealer's hand is:")
@@ -172,6 +172,7 @@ loop do
     puts "Dealer is dealt [#{dealer_hand[-1][1]} of " \
          "#{SYMBOLS[dealer_hand[-1][0]]}]"
     puts "The total of the dealer's hand is #{total_hand(dealer_hand)}.\n\n"
+    sleep 1.00
   end
 
   if busted?(dealer_hand)
@@ -179,38 +180,13 @@ loop do
     report_result(dealer_hand, player_hand)
     play_again? ? next : break
   else
-    prompt_green("Dealer stays with #{total_hand(dealer_hand)}.\n\n")
+    prompt_green("Dealer stays with #{total_hand(dealer_hand)}.\n")
   end
 
+  current_score(dealer_hand, player_hand)
   report_result(dealer_hand, player_hand)
   break unless play_again?
 end
 
 puts ''
 prompt_green('Thank you for playing Twenty-One! Goodbye.')
-
-# assignment high level implementation (book)
-# 1. Initialize deck
-# 2. Deal cards to player and dealer
-# 3. Player turn: hit or stay
-#   - repeat until bust or "stay"
-# 4. If player bust, dealer wins.
-# 5. Dealer turn: hit or stay
-#   - repeat until total >= 17
-# 6. If dealer bust, player wins.
-# 7. Compare cards and declare winner.
-
-# list of parts
-# -------------
-# def prompt x
-# def clear x
-# constant for suits (spelled out or unicode) x
-# welcome/intro text x
-# def deck_builder x
-# def draw_card x
-# constant for values x
-# def total_hand x
-# def display_initial_hands x
-# def display_cards x
-# def who_wins? x
-# def report_result x
