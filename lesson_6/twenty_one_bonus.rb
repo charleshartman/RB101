@@ -85,33 +85,33 @@ def play_again?
   answer.downcase.start_with?('y')
 end
 
-def who_wins?(dealer_hand, player_hand)
-  if total_hand(player_hand) > 21
-    'player_busted'
-  elsif total_hand(dealer_hand) > 21
-    'dealer_busted'
-  elsif total_hand(dealer_hand) == total_hand(player_hand)
-    'push'
-  elsif total_hand(dealer_hand) > total_hand(player_hand)
-    'dealer'
-  elsif total_hand(player_hand) > total_hand(dealer_hand)
-    'player'
+def who_wins?(dealer_total, player_total)
+  if player_total > 21
+    :player_bust
+  elsif dealer_total > 21
+    :dealer_bust
+  elsif dealer_total == player_total
+    :push
+  elsif dealer_total > player_total
+    :dealer
+  elsif player_total > dealer_total
+    :player
   end
 end
 
-def report_result(dealer_hand, player_hand)
-  result = who_wins?(dealer_hand, player_hand)
+def report_result(dealer_total, player_total)
+  result = who_wins?(dealer_total, player_total)
 
   case result
-  when 'player_busted'
+  when :player_bust
     prompt_green("Player busted! Dealer wins!\n\n")
-  when 'dealer_busted'
+  when :dealer_bust
     prompt_green("Dealer busted! Player wins!\n\n")
-  when 'player'
+  when :player
     prompt_green("Player wins!\n\n")
-  when 'dealer'
+  when :dealer
     prompt_green("Dealer wins!\n\n")
-  when 'push'
+  when :push
     prompt_green("Hand is tied, push!\n\n")
   end
 end
@@ -158,7 +158,7 @@ loop do
 
   if busted?(player_total)
     current_score(dealer_hand, player_hand)
-    report_result(dealer_hand, player_hand)
+    report_result(dealer_total, player_total)
     play_again? ? next : break
   else
     prompt_green("Player stays with #{player_total}.\n")
@@ -186,14 +186,14 @@ loop do
 
   if busted?(dealer_total)
     current_score(dealer_hand, player_hand)
-    report_result(dealer_hand, player_hand)
+    report_result(dealer_total, player_total)
     play_again? ? next : break
   else
-    prompt_green("Dealer stays with #{total_hand(dealer_hand)}.\n")
+    prompt_green("Dealer stays with #{dealer_total}.\n")
   end
 
   current_score(dealer_hand, player_hand)
-  report_result(dealer_hand, player_hand)
+  report_result(dealer_total, player_total)
   break unless play_again?
 end
 
