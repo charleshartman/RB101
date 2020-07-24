@@ -119,6 +119,28 @@ def report_result(dealer_total, player_total)
   end
 end
 
+def increment_scoreboard(dealer_total, player_total, scoreboard)
+  result = who_wins?(dealer_total, player_total)
+
+  case result
+  when :player_bust
+    scoreboard[:dealer] += 1
+  when :dealer_bust
+    scoreboard[:player] += 1
+  when :player
+    scoreboard[:player] += 1
+  when :dealer
+    scoreboard[:dealer] += 1
+  when :push
+    scoreboard
+  end
+end
+
+def print_scoreboard(scoreboard)
+  prompt_green("Match score -> Player: #{scoreboard[:player]} " \
+               "Dealer: #{scoreboard[:dealer]}")
+end
+
 def display_initial_hands(dealer_hand, player_hand)
   puts "Dealer has [#{dealer_hand[0][1]} of #{SYMBOLS[dealer_hand[0][0]]}] " \
        "and [hidden].\n\n"
@@ -127,76 +149,89 @@ def display_initial_hands(dealer_hand, player_hand)
 end
 
 loop do
-  player_hand = []
-  dealer_hand = []
-  display_header
-
-  deck = deck_builder(SUITS, CARDS)
-  initial_deal(deck, player_hand, dealer_hand)
-  display_initial_hands(dealer_hand, player_hand)
-
-  dealer_total = total_hand(dealer_hand)
-  player_total = total_hand(player_hand)
+  scoreboard = { player: 0, dealer: 0 }
 
   loop do
-    answer = nil
-    loop do
-      prompt("Would you like to (h)it or (s)tay?")
-      answer = gets.chomp.downcase
-      break if answer == 's' || answer == 'h'
-      puts "=> Invalid input, you must enter 'h' or 's'.\n\n"
-    end
+    player_hand = []
+    dealer_hand = []
+    display_header
 
-    if answer == 'h'
-      deal_card(deck, player_hand)
-      puts "Player is dealt [#{player_hand[-1][1]} of " \
-           "#{SYMBOLS[player_hand[-1][0]]}]"
-      player_total = total_hand(player_hand)
+    deck = deck_builder(SUITS, CARDS)
+    initial_deal(deck, player_hand, dealer_hand)
+    display_initial_hands(dealer_hand, player_hand)
 
-      puts "The total of your hand is #{player_total}.\n\n"
-    end
-
-    break if answer == 's' || busted?(player_total)
-  end
-
-  if busted?(player_total)
-    current_score(dealer_total, player_total)
-    report_result(dealer_total, player_total)
-    play_again? ? next : break
-  else
-    prompt_green("Player stays with #{player_total}.\n")
-  end
-
-  prompt_green("Dealer reveals hole card...the dealer's hand is:")
-  sleep 1.00
-  puts "[#{dealer_hand[0][1]} of #{SYMBOLS[dealer_hand[0][0]]}] " \
-       "and [#{dealer_hand[1][1]} of #{SYMBOLS[dealer_hand[1][0]]}].\n\n"
-  puts "The total of the dealer's hand is #{dealer_total}.\n\n"
-
-  loop do
-    break if dealer_total >= DEALER_HITS_TO
-
-    puts "Dealer hits..."
-    sleep 1.00
-    deal_card(deck, dealer_hand)
-    puts "Dealer is dealt [#{dealer_hand[-1][1]} of " \
-         "#{SYMBOLS[dealer_hand[-1][0]]}]"
     dealer_total = total_hand(dealer_hand)
+    player_total = total_hand(player_hand)
 
-    puts "The total of the dealer's hand is #{dealer_total}.\n\n"
+    loop do
+      answer = nil
+      loop do
+        prompt("Would you like to (h)it or (s)tay?")
+        answer = gets.chomp.downcase
+        break if answer == 's' || answer == 'h'
+        puts "=> Invalid input, you must enter 'h' or 's'.\n\n"
+      end
+
+      if answer == 'h'
+        deal_card(deck, player_hand)
+        puts "Player is dealt [#{player_hand[-1][1]} of " \
+             "#{SYMBOLS[player_hand[-1][0]]}]"
+        player_total = total_hand(player_hand)
+
+        puts "The total of your hand is #{player_total}.\n\n"
+      end
+
+      break if answer == 's' || busted?(player_total)
+    end
+
+    if busted?(player_total)
+      current_score(dealer_total, player_total)
+      report_result(dealer_total, player_total)
+      increment_scoreboard(dealer_total, player_total, scoreboard)
+      print_scoreboard(scoreboard)
+      play_again? ? next : break
+    else
+      prompt_green("Player stays with #{player_total}.\n")
+    end
+
+    prompt_green("Dealer reveals hole card...the dealer's hand is:")
     sleep 1.00
-  end
+    puts "[#{dealer_hand[0][1]} of #{SYMBOLS[dealer_hand[0][0]]}] " \
+         "and [#{dealer_hand[1][1]} of #{SYMBOLS[dealer_hand[1][0]]}].\n\n"
+    puts "The total of the dealer's hand is #{dealer_total}.\n\n"
 
-  if busted?(dealer_total)
+    loop do
+      break if dealer_total >= DEALER_HITS_TO
+
+      puts "Dealer hits..."
+      sleep 1.00
+      deal_card(deck, dealer_hand)
+      puts "Dealer is dealt [#{dealer_hand[-1][1]} of " \
+           "#{SYMBOLS[dealer_hand[-1][0]]}]"
+      dealer_total = total_hand(dealer_hand)
+
+      puts "The total of the dealer's hand is #{dealer_total}.\n\n"
+      sleep 1.00
+    end
+
+    if busted?(dealer_total)
+      current_score(dealer_total, player_total)
+      report_result(dealer_total, player_total)
+      increment_scoreboard(dealer_total, player_total, scoreboard)
+      print_scoreboard(scoreboard)
+      play_again? ? next : break
+    else
+      prompt_green("Dealer stays with #{dealer_total}.\n")
+    end
+
     current_score(dealer_total, player_total)
     report_result(dealer_total, player_total)
-    play_again? ? next : break
-  else
-    prompt_green("Dealer stays with #{dealer_total}.\n")
+    increment_scoreboard(dealer_total, player_total, scoreboard)
+    print_scoreboard(scoreboard)
+
+    break unless play_again?
   end
 
-  current_score(dealer_total, player_total)
-  report_result(dealer_total, player_total)
   break unless play_again?
 end
 
