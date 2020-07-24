@@ -1,5 +1,4 @@
-# twenty_one_re.rb - initial lesson implementation of '21' aka Blackjack
-#                    with some refactoring based on LS solution ideas
+# twenty_one_bonus.rb - Twenty-One Bonus Features Assignment
 
 require 'pry'
 
@@ -70,9 +69,8 @@ def total_hand(hand)
   total
 end
 
-def current_score(dealer_hand, player_hand)
-  puts "Dealer total is #{total_hand(dealer_hand)}, player total is " \
-           "#{total_hand(player_hand)}.\n\n"
+def current_score(dealer_total, player_total)
+  puts "Dealer total is #{dealer_total}, player total is #{player_total}.\n\n"
 end
 
 def busted?(total)
@@ -157,7 +155,7 @@ loop do
   end
 
   if busted?(player_total)
-    current_score(dealer_hand, player_hand)
+    current_score(dealer_total, player_total)
     report_result(dealer_total, player_total)
     play_again? ? next : break
   else
@@ -185,14 +183,14 @@ loop do
   end
 
   if busted?(dealer_total)
-    current_score(dealer_hand, player_hand)
+    current_score(dealer_total, player_total)
     report_result(dealer_total, player_total)
     play_again? ? next : break
   else
     prompt_green("Dealer stays with #{dealer_total}.\n")
   end
 
-  current_score(dealer_hand, player_hand)
+  current_score(dealer_total, player_total)
   report_result(dealer_total, player_total)
   break unless play_again?
 end
