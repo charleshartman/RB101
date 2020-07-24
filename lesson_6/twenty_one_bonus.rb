@@ -1,4 +1,5 @@
 # twenty_one_bonus.rb - Twenty-One Bonus Features Assignment
+# Whatever-One also implemented
 
 require 'pry'
 
@@ -10,6 +11,10 @@ VALUES = { 'Ace' => 11, '2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6,
            'Queen' => 10, 'King' => 10 }
 SYMBOLS = { "S" => "\u2660", "H" => "\u2665", "D" => "\u2666",
             "C" => "\u2663", "smile" => "\u{1F600}", "pcard" => "\u{1F0CF}" }
+
+# set these to modify gameplay parameters, 21 and 17 are traditional
+HIGH_SCORE = 21
+DEALER_HITS_TO = 17
 
 def clear_screen
   system 'clear'
@@ -27,8 +32,8 @@ end
 def display_header
   clear_screen
   puts ''
-  prompt_green("Welcome to 'Twenty-One' aka 'Blackjack'")
-  prompt_green("Single Deck Shoe. Dealer must HIT below 17.")
+  prompt_green("Welcome to '#{HIGH_SCORE}' inspired by 'Blackjack'")
+  prompt_green("Single Deck Shoe. Dealer must HIT below #{DEALER_HITS_TO}.")
   prompt_green("Good Luck!\n")
   sleep 1.00
   prompt_green("Shuffling...")
@@ -64,7 +69,7 @@ def total_hand(hand)
   total = 0
   hand.each { |val| total += VALUES[val[1]] }
   values.select { |val| val == 'Ace' }.count.times do
-    total -= 10 if total > 21
+    total -= 10 if total > HIGH_SCORE
   end
   total
 end
@@ -74,7 +79,7 @@ def current_score(dealer_total, player_total)
 end
 
 def busted?(total)
-  total > 21
+  total > HIGH_SCORE
 end
 
 def play_again?
@@ -84,9 +89,9 @@ def play_again?
 end
 
 def who_wins?(dealer_total, player_total)
-  if player_total > 21
+  if player_total > HIGH_SCORE
     :player_bust
-  elsif dealer_total > 21
+  elsif dealer_total > HIGH_SCORE
     :dealer_bust
   elsif dealer_total == player_total
     :push
@@ -169,7 +174,7 @@ loop do
   puts "The total of the dealer's hand is #{dealer_total}.\n\n"
 
   loop do
-    break if dealer_total >= 17
+    break if dealer_total >= DEALER_HITS_TO
 
     puts "Dealer hits..."
     sleep 1.00
