@@ -141,6 +141,16 @@ def print_scoreboard(scoreboard)
                "Dealer: #{scoreboard[:dealer]}")
 end
 
+def match_won?(scoreboard)
+  if scoreboard[:player] == 5
+    prompt_green("Player has won five rounds! Player wins the match!")
+  elsif scoreboard[:dealer] == 5
+    prompt_green("Dealer has won five rounds! Dealer wins the match!")
+  else
+    false
+  end
+end
+
 def display_initial_hands(dealer_hand, player_hand)
   puts "Dealer has [#{dealer_hand[0][1]} of #{SYMBOLS[dealer_hand[0][0]]}] " \
        "and [hidden].\n\n"
@@ -189,6 +199,8 @@ loop do
       report_result(dealer_total, player_total)
       increment_scoreboard(dealer_total, player_total, scoreboard)
       print_scoreboard(scoreboard)
+      match_won?(scoreboard)
+
       play_again? ? next : break
     else
       prompt_green("Player stays with #{player_total}.\n")
@@ -219,6 +231,8 @@ loop do
       report_result(dealer_total, player_total)
       increment_scoreboard(dealer_total, player_total, scoreboard)
       print_scoreboard(scoreboard)
+      match_won?(scoreboard)
+
       play_again? ? next : break
     else
       prompt_green("Dealer stays with #{dealer_total}.\n")
@@ -228,6 +242,7 @@ loop do
     report_result(dealer_total, player_total)
     increment_scoreboard(dealer_total, player_total, scoreboard)
     print_scoreboard(scoreboard)
+    match_won?(scoreboard)
 
     break unless play_again?
   end
