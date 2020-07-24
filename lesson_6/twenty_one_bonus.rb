@@ -83,9 +83,14 @@ def busted?(total)
 end
 
 def play_again?
-  prompt("Would you like to play another hand? (y/n) ")
+  prompt("Would you like to play another match? (y/n) ")
   answer = gets.chomp
   answer.downcase.start_with?('y')
+end
+
+def continue_playing?
+  prompt("[Press RETURN/ENTER to continue]")
+  gets.chomp
 end
 
 def who_wins?(dealer_total, player_total)
@@ -144,8 +149,10 @@ end
 def match_won?(scoreboard)
   if scoreboard[:player] == 5
     prompt_green("Player has won five rounds! Player wins the match!")
+    true
   elsif scoreboard[:dealer] == 5
     prompt_green("Dealer has won five rounds! Dealer wins the match!")
+    true
   else
     false
   end
@@ -199,9 +206,9 @@ loop do
       report_result(dealer_total, player_total)
       increment_scoreboard(dealer_total, player_total, scoreboard)
       print_scoreboard(scoreboard)
-      match_won?(scoreboard)
+      continue_playing?
+      match_won?(scoreboard) ? break : next
 
-      play_again? ? next : break
     else
       prompt_green("Player stays with #{player_total}.\n")
     end
@@ -231,9 +238,10 @@ loop do
       report_result(dealer_total, player_total)
       increment_scoreboard(dealer_total, player_total, scoreboard)
       print_scoreboard(scoreboard)
-      match_won?(scoreboard)
+      continue_playing?
+      match_won?(scoreboard) ? break : next
 
-      play_again? ? next : break
+      # continue_playing?(scoreboard) ? next : break
     else
       prompt_green("Dealer stays with #{dealer_total}.\n")
     end
@@ -242,9 +250,10 @@ loop do
     report_result(dealer_total, player_total)
     increment_scoreboard(dealer_total, player_total, scoreboard)
     print_scoreboard(scoreboard)
-    match_won?(scoreboard)
+    continue_playing?
+    match_won?(scoreboard) ? break : next
 
-    break unless play_again?
+    # break unless continue_playing?(scoreboard)
   end
 
   break unless play_again?
