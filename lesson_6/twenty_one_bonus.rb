@@ -2,6 +2,7 @@
 # Whatever-One also implemented
 
 require 'pry'
+require 'io/console'
 
 SUITS = ['H', 'D', 'S', 'C']
 CARDS = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10',
@@ -9,8 +10,7 @@ CARDS = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10',
 VALUES = { 'Ace' => 11, '2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6,
            '7' => 7, '8' => 8, '9' => 9, '10' => 10, "Jack" => 10,
            'Queen' => 10, 'King' => 10 }
-SYMBOLS = { "S" => "\u2660", "H" => "\u2665", "D" => "\u2666",
-            "C" => "\u2663", "smile" => "\u{1F600}", "pcard" => "\u{1F0CF}" }
+SYMBOLS = { "S" => "\u2660", "H" => "\u2665", "D" => "\u2666", "C" => "\u2663" }
 
 # set these to modify gameplay parameters, 21 and 17 are traditional
 HIGH_SCORE = 21
@@ -32,7 +32,7 @@ end
 def display_header
   clear_screen
   puts ''
-  prompt_green("Welcome to '#{HIGH_SCORE}' inspired by 'Blackjack'")
+  prompt_green("Welcome to '#{HIGH_SCORE}' inspired by [Blackjack].")
   prompt_green("Single Deck Shoe. Dealer must HIT below #{DEALER_HITS_TO}.")
   prompt_green("Good Luck!\n")
   sleep 1.00
@@ -89,8 +89,9 @@ def play_again?
 end
 
 def continue_playing?
-  prompt("[Press RETURN/ENTER to continue]")
-  gets.chomp
+  print "[Press any key to continue]"
+  STDIN.getch
+  print "                            \r"
 end
 
 def who_wins?(dealer_total, player_total)
@@ -143,15 +144,23 @@ end
 
 def print_scoreboard(scoreboard)
   prompt_green("Match score -> Player: #{scoreboard[:player]} " \
-               "Dealer: #{scoreboard[:dealer]}")
+               "Dealer: #{scoreboard[:dealer]}\n")
+end
+
+def banner(dealer_hand, player_hand, dealer_total, player_total, scoreboard)
+  display_current_hand(dealer_hand, player_hand)
+  current_score(dealer_total, player_total)
+  report_result(dealer_total, player_total)
+  increment_scoreboard(dealer_total, player_total, scoreboard)
+  print_scoreboard(scoreboard)
 end
 
 def match_won?(scoreboard)
   if scoreboard[:player] == 5
-    prompt_green("Player has won five rounds! Player wins the match!")
+    prompt_green("Player has won five rounds! Player wins the match!\n\n")
     true
   elsif scoreboard[:dealer] == 5
-    prompt_green("Dealer has won five rounds! Dealer wins the match!")
+    prompt_green("Dealer has won five rounds! Dealer wins the match!\n\n")
     true
   else
     false
@@ -163,6 +172,19 @@ def display_initial_hands(dealer_hand, player_hand)
        "and [hidden].\n\n"
   puts "Player has [#{player_hand[0][1]} of #{SYMBOLS[player_hand[0][0]]}] " \
        "and [#{player_hand[1][1]} of #{SYMBOLS[player_hand[1][0]]}].\n\n"
+end
+
+def display_current_hand(dealer_hand, player_hand)
+  print "Dealer hand: "
+  dealer_hand.each do |card|
+    print "[#{SYMBOLS[card[0]]} #{card[1]} #{SYMBOLS[card[0]]}]  "
+  end
+  puts ''
+  print "Player hand: "
+  player_hand.each do |card|
+    print "[#{SYMBOLS[card[0]]} #{card[1]} #{SYMBOLS[card[0]]}]  "
+  end
+  puts ''
 end
 
 loop do
@@ -202,10 +224,12 @@ loop do
     end
 
     if busted?(player_total)
-      current_score(dealer_total, player_total)
-      report_result(dealer_total, player_total)
-      increment_scoreboard(dealer_total, player_total, scoreboard)
-      print_scoreboard(scoreboard)
+      # display_current_hand(dealer_hand, player_hand)
+      # current_score(dealer_total, player_total)
+      # report_result(dealer_total, player_total)
+      # increment_scoreboard(dealer_total, player_total, scoreboard)
+      # print_scoreboard(scoreboard)
+      banner(dealer_hand, player_hand, dealer_total, player_total, scoreboard)
       continue_playing?
       match_won?(scoreboard) ? break : next
 
@@ -234,6 +258,7 @@ loop do
     end
 
     if busted?(dealer_total)
+      display_current_hand(dealer_hand, player_hand)
       current_score(dealer_total, player_total)
       report_result(dealer_total, player_total)
       increment_scoreboard(dealer_total, player_total, scoreboard)
@@ -241,23 +266,21 @@ loop do
       continue_playing?
       match_won?(scoreboard) ? break : next
 
-      # continue_playing?(scoreboard) ? next : break
     else
       prompt_green("Dealer stays with #{dealer_total}.\n")
     end
 
+    display_current_hand(dealer_hand, player_hand)
     current_score(dealer_total, player_total)
     report_result(dealer_total, player_total)
     increment_scoreboard(dealer_total, player_total, scoreboard)
     print_scoreboard(scoreboard)
     continue_playing?
     match_won?(scoreboard) ? break : next
-
-    # break unless continue_playing?(scoreboard)
   end
 
   break unless play_again?
 end
 
 puts ''
-prompt_green('Thank you for playing Twenty-One! Goodbye.')
+prompt_green("Thank you for playing '#{HIGH_SCORE}'. Goodbye.")
