@@ -1,7 +1,6 @@
 # twenty_one_bonus.rb - Twenty-One Bonus Features Assignment
 # Whatever-One also implemented
 
-require 'pry'
 require 'io/console'
 
 SUITS = ['H', 'D', 'S', 'C']
@@ -113,15 +112,15 @@ def report_result(dealer_total, player_total)
 
   case result
   when :player_bust
-    prompt_green("Player busted! Dealer wins!\n\n")
+    prompt_green("Player busted! Dealer wins!\n")
   when :dealer_bust
-    prompt_green("Dealer busted! Player wins!\n\n")
+    prompt_green("Dealer busted! Player wins!\n")
   when :player
-    prompt_green("Player wins!\n\n")
+    prompt_green("Player wins!\n")
   when :dealer
-    prompt_green("Dealer wins!\n\n")
+    prompt_green("Dealer wins!\n")
   when :push
-    prompt_green("Hand is tied, push!\n\n")
+    prompt_green("Hand is tied, push!\n")
   end
 end
 
@@ -224,11 +223,6 @@ loop do
     end
 
     if busted?(player_total)
-      # display_current_hand(dealer_hand, player_hand)
-      # current_score(dealer_total, player_total)
-      # report_result(dealer_total, player_total)
-      # increment_scoreboard(dealer_total, player_total, scoreboard)
-      # print_scoreboard(scoreboard)
       banner(dealer_hand, player_hand, dealer_total, player_total, scoreboard)
       continue_playing?
       match_won?(scoreboard) ? break : next
@@ -258,11 +252,7 @@ loop do
     end
 
     if busted?(dealer_total)
-      display_current_hand(dealer_hand, player_hand)
-      current_score(dealer_total, player_total)
-      report_result(dealer_total, player_total)
-      increment_scoreboard(dealer_total, player_total, scoreboard)
-      print_scoreboard(scoreboard)
+      banner(dealer_hand, player_hand, dealer_total, player_total, scoreboard)
       continue_playing?
       match_won?(scoreboard) ? break : next
 
@@ -270,11 +260,7 @@ loop do
       prompt_green("Dealer stays with #{dealer_total}.\n")
     end
 
-    display_current_hand(dealer_hand, player_hand)
-    current_score(dealer_total, player_total)
-    report_result(dealer_total, player_total)
-    increment_scoreboard(dealer_total, player_total, scoreboard)
-    print_scoreboard(scoreboard)
+    banner(dealer_hand, player_hand, dealer_total, player_total, scoreboard)
     continue_playing?
     match_won?(scoreboard) ? break : next
   end
