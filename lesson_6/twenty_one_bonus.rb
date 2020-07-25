@@ -236,6 +236,7 @@ loop do
     puts "[#{dealer_hand[0][1]} of #{SYMBOLS[dealer_hand[0][0]]}] " \
          "and [#{dealer_hand[1][1]} of #{SYMBOLS[dealer_hand[1][0]]}].\n\n"
     puts "The total of the dealer's hand is #{dealer_total}.\n\n"
+    sleep 1.00
 
     loop do
       break if dealer_total >= DEALER_HITS_TO
