@@ -6,7 +6,8 @@
 # Do not use the method Array#rotate or Array#rotate! for your implementation.
 
 def rotate_array(array)
-  array[1..-1] + [array[0]]
+  # array[1..-1] + [array[0]]
+  array[1..-1] << array[0]
 end
 
 def rotate_integer(int)
