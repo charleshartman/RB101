@@ -231,13 +231,6 @@ loop do
     player_total = total_hand(player_hand)
 
     loop do
-      # answer = nil
-      # loop do
-      #   prompt("Would you like to (h)it or (s)tay?")
-      #   answer = gets.chomp.downcase
-      #   break if answer == 's' || answer == 'h'
-      #   puts "=> Invalid input, you must enter 'h' or 's'.\n\n"
-      # end
       answer = user_hit_stay?
 
       if answer == 'h'
@@ -290,7 +283,7 @@ loop do
       match_won?(scoreboard) ? break : next
 
     else
-      sleep 1.00
+      sleep 2.00
       clear_screen
       prompt_green("Dealer stays with #{dealer_total}.\n")
     end
