@@ -84,7 +84,7 @@ def total_hand(hand)
   total
 end
 
-def current_score(dealer_total, player_total)
+def display_current_score(dealer_total, player_total)
   puts "Dealer total is #{dealer_total}, player total is #{player_total}.\n\n"
 end
 
@@ -164,7 +164,7 @@ end
 
 def banner(dealer_hand, player_hand, dealer_total, player_total, scoreboard)
   display_current_hand(dealer_hand, player_hand)
-  current_score(dealer_total, player_total)
+  display_current_score(dealer_total, player_total)
   report_result(dealer_total, player_total)
   increment_scoreboard(dealer_total, player_total, scoreboard)
   print_scoreboard(scoreboard)
@@ -246,6 +246,8 @@ loop do
       match_won?(scoreboard) ? break : next
 
     else
+      sleep 1.00
+      clear_screen
       prompt_green("Player stays with #{player_total}.\n")
     end
 
@@ -276,6 +278,8 @@ loop do
       match_won?(scoreboard) ? break : next
 
     else
+      sleep 1.00
+      clear_screen
       prompt_green("Dealer stays with #{dealer_total}.\n")
     end
 
