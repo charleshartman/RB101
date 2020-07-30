@@ -202,6 +202,17 @@ def display_current_hand(dealer_hand, player_hand)
   puts ''
 end
 
+def user_hit_stay?
+  choice = ''
+  loop do
+    prompt("Would you like to (h)it or (s)tay?")
+    choice = gets.chomp.downcase
+    break if choice == 's' || choice == 'h'
+    puts "=> Invalid input, you must enter 'h' or 's'.\n\n"
+  end
+  choice
+end
+
 loop do
   scoreboard = { player: 0, dealer: 0 }
   display_initial_welcome
@@ -220,13 +231,14 @@ loop do
     player_total = total_hand(player_hand)
 
     loop do
-      answer = nil
-      loop do
-        prompt("Would you like to (h)it or (s)tay?")
-        answer = gets.chomp.downcase
-        break if answer == 's' || answer == 'h'
-        puts "=> Invalid input, you must enter 'h' or 's'.\n\n"
-      end
+      # answer = nil
+      # loop do
+      #   prompt("Would you like to (h)it or (s)tay?")
+      #   answer = gets.chomp.downcase
+      #   break if answer == 's' || answer == 'h'
+      #   puts "=> Invalid input, you must enter 'h' or 's'.\n\n"
+      # end
+      answer = user_hit_stay?
 
       if answer == 'h'
         deal_card(deck, player_hand)
