@@ -15,7 +15,7 @@
 # Note that you do not have to handle multiple 0s.
 
 def max_rotation(int)
-
+  # code
 end
 
 # Example:
@@ -24,3 +24,12 @@ p max_rotation(3) == 3
 p max_rotation(35) == 53
 p max_rotation(105) == 15 # the leading zero gets dropped
 p max_rotation(8_703_529_146) == 7_321_609_845
+
+=begin
+735291
+352917
+329175
+321759
+321597
+321579
+=end
