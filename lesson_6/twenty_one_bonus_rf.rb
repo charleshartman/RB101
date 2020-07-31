@@ -202,7 +202,7 @@ def display_current_hand(dealer_hand, player_hand)
   puts ''
 end
 
-def user_hit_stay?
+def player_hit_stay?
   choice = ''
   loop do
     prompt("Would you like to (h)it or (s)tay?")
@@ -211,6 +211,12 @@ def user_hit_stay?
     puts "=> Invalid input, you must enter 'h' or 's'.\n\n"
   end
   choice
+end
+
+def player_hits(deck, player_hand)
+  deal_card(deck, player_hand)
+  puts "Player is dealt [#{player_hand[-1][1]} of " \
+       "#{SYMBOLS[player_hand[-1][0]]}]"
 end
 
 loop do
@@ -231,14 +237,10 @@ loop do
     player_total = total_hand(player_hand)
 
     loop do
-      answer = user_hit_stay?
-
+      answer = player_hit_stay?
       if answer == 'h'
-        deal_card(deck, player_hand)
-        puts "Player is dealt [#{player_hand[-1][1]} of " \
-             "#{SYMBOLS[player_hand[-1][0]]}]"
+        player_hits(deck, player_hand)
         player_total = total_hand(player_hand)
-
         puts "The total of your hand is #{player_total}.\n\n"
       end
 
