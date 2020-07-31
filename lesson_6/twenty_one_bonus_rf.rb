@@ -219,6 +219,21 @@ def player_hits(deck, player_hand)
        "#{SYMBOLS[player_hand[-1][0]]}]"
 end
 
+def dealer_reveals(dealer_hand, dealer_total)
+  prompt_green("Dealer reveals hidden card...the dealer's hand is:")
+  sleep 1.00
+  puts "[#{dealer_hand[0][1]} of #{SYMBOLS[dealer_hand[0][0]]}] " \
+       "and [#{dealer_hand[1][1]} of #{SYMBOLS[dealer_hand[1][0]]}].\n\n"
+  puts "The total of the dealer's hand is #{dealer_total}.\n\n"
+  sleep 1.00
+end
+
+def stays_with(who, who_total)
+  sleep 1.50
+  clear_screen
+  prompt_green("#{who} stays with #{who_total}.\n")
+end
+
 loop do
   scoreboard = { player: 0, dealer: 0 }
   display_initial_welcome
@@ -253,17 +268,10 @@ loop do
       match_won?(scoreboard) ? break : next
 
     else
-      sleep 1.00
-      clear_screen
-      prompt_green("Player stays with #{player_total}.\n")
+      stays_with('Player', player_total)
     end
 
-    prompt_green("Dealer reveals hidden card...the dealer's hand is:")
-    sleep 1.00
-    puts "[#{dealer_hand[0][1]} of #{SYMBOLS[dealer_hand[0][0]]}] " \
-         "and [#{dealer_hand[1][1]} of #{SYMBOLS[dealer_hand[1][0]]}].\n\n"
-    puts "The total of the dealer's hand is #{dealer_total}.\n\n"
-    sleep 1.00
+    dealer_reveals(dealer_hand, dealer_total)
 
     loop do
       break if dealer_total >= DEALER_HITS_TO
@@ -285,9 +293,7 @@ loop do
       match_won?(scoreboard) ? break : next
 
     else
-      sleep 2.00
-      clear_screen
-      prompt_green("Dealer stays with #{dealer_total}.\n")
+      stays_with('Dealer', dealer_total)
     end
 
     banner(dealer_hand, player_hand, dealer_total, player_total, scoreboard)
