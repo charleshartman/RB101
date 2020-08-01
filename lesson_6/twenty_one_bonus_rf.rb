@@ -170,9 +170,21 @@ def banner(dealer_hand, player_hand, dealer_total, player_total, scoreboard)
   print_scoreboard(scoreboard)
 end
 
+def bunnie(how_many = 1)
+  how_many.times do
+    puts ''
+    prompt("(\\___/)")
+    prompt("(='.'=)")
+    prompt("(\")_(\")")
+    puts ''
+  end
+end
+
 def match_won?(scoreboard)
   if scoreboard[:player] == 5
     prompt_green("Player has won five rounds! Player wins the match!\n\n")
+    prompt("Blackjack Bunnie says 'Good Job!'")
+    bunnie
     true
   elsif scoreboard[:dealer] == 5
     prompt_green("Dealer has won five rounds! Dealer wins the match!\n\n")
@@ -213,10 +225,10 @@ def player_hit_stay?
   choice
 end
 
-def player_hits(deck, player_hand)
-  deal_card(deck, player_hand)
-  puts "Player is dealt [#{player_hand[-1][1]} of " \
-       "#{SYMBOLS[player_hand[-1][0]]}]"
+def hit_me(player, deck, hand)
+  deal_card(deck, hand)
+  puts "#{player} is dealt [#{hand[-1][1]} of " \
+       "#{SYMBOLS[hand[-1][0]]}]"
 end
 
 def dealer_reveals(dealer_hand, dealer_total)
@@ -229,7 +241,10 @@ def dealer_reveals(dealer_hand, dealer_total)
 end
 
 def stays_with(who, who_total)
-  sleep 1.50
+  sleep 1.50 # comment this out if you prefer/uncomment next line
+  # continue_playing?
+  # ^^^ you can you this instead of sleep for a slower, read
+  # all the cards and calculations carefully experience
   clear_screen
   prompt_green("#{who} stays with #{who_total}.\n")
 end
@@ -254,7 +269,7 @@ loop do
     loop do
       answer = player_hit_stay?
       if answer == 'h'
-        player_hits(deck, player_hand)
+        hit_me('PLayer', deck, player_hand)
         player_total = total_hand(player_hand)
         puts "The total of your hand is #{player_total}.\n\n"
       end
@@ -278,9 +293,7 @@ loop do
 
       puts "Dealer hits..."
       sleep 1.00
-      deal_card(deck, dealer_hand)
-      puts "Dealer is dealt [#{dealer_hand[-1][1]} of " \
-           "#{SYMBOLS[dealer_hand[-1][0]]}]"
+      hit_me('Dealer', deck, dealer_hand)
       dealer_total = total_hand(dealer_hand)
 
       puts "The total of the dealer's hand is #{dealer_total}.\n\n"
