@@ -84,6 +84,11 @@ def total_hand(hand)
   total
 end
 
+def display_hand_total(who, total)
+  puts "The total of the #{who}'s hand is #{total}.\n\n"
+  sleep 0.75
+end
+
 def display_current_score(dealer_total, player_total)
   puts "Dealer total is #{dealer_total}, player total is #{player_total}.\n\n"
 end
@@ -183,7 +188,7 @@ end
 def match_won?(scoreboard)
   if scoreboard[:player] == 5
     prompt_green("Player has won five rounds! Player wins the match!\n\n")
-    prompt("Blackjack Bunnie says 'Good Job!'")
+    prompt("Bunnie '#{HIGH_SCORE}' says 'Good Job!'")
     bunnie
     true
   elsif scoreboard[:dealer] == 5
@@ -226,6 +231,8 @@ def player_hit_stay?
 end
 
 def hit_me(player, deck, hand)
+  prompt_green("#{player} hits...")
+  sleep 1.00
   deal_card(deck, hand)
   puts "#{player} is dealt [#{hand[-1][1]} of " \
        "#{SYMBOLS[hand[-1][0]]}]"
@@ -241,7 +248,7 @@ def dealer_reveals(dealer_hand, dealer_total)
 end
 
 def stays_with(who, who_total)
-  sleep 1.50 # comment this out if you prefer/uncomment next line
+  sleep 1.50 # comment this out if you uncomment next line
   # continue_playing?
   # ^^^ you can you this instead of sleep for a slower, read
   # all the cards and calculations carefully experience
@@ -269,9 +276,9 @@ loop do
     loop do
       answer = player_hit_stay?
       if answer == 'h'
-        hit_me('PLayer', deck, player_hand)
+        hit_me('Player', deck, player_hand)
         player_total = total_hand(player_hand)
-        puts "The total of your hand is #{player_total}.\n\n"
+        display_hand_total('player', player_total)
       end
 
       break if answer == 's' || busted?(player_total)
@@ -281,7 +288,6 @@ loop do
       banner(dealer_hand, player_hand, dealer_total, player_total, scoreboard)
       continue_playing?
       match_won?(scoreboard) ? break : next
-
     else
       stays_with('Player', player_total)
     end
@@ -291,20 +297,15 @@ loop do
     loop do
       break if dealer_total >= DEALER_HITS_TO
 
-      puts "Dealer hits..."
-      sleep 1.00
       hit_me('Dealer', deck, dealer_hand)
       dealer_total = total_hand(dealer_hand)
-
-      puts "The total of the dealer's hand is #{dealer_total}.\n\n"
-      sleep 1.00
+      display_hand_total('dealer', dealer_total)
     end
 
     if busted?(dealer_total)
       banner(dealer_hand, player_hand, dealer_total, player_total, scoreboard)
       continue_playing?
       match_won?(scoreboard) ? break : next
-
     else
       stays_with('Dealer', dealer_total)
     end
