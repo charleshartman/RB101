@@ -14,8 +14,22 @@
 
 # Note that you do not have to handle multiple 0s.
 
+def rotate_array(arr)
+  arr[1..-1] + [arr[0]]
+end
+
+def rotate_rightmost_digits(number, n)
+  new = number.digits.reverse
+  (new[0...-n] + [rotate_array(new[-n..-1])].flatten).join.to_i
+end
+
 def max_rotation(int)
-  # code
+  counter = int.to_s.length
+  while counter > 1
+    int = rotate_rightmost_digits(int, counter)
+    counter -= 1
+  end
+  int
 end
 
 # Example:
