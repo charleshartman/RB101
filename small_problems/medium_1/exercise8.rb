@@ -13,7 +13,11 @@
 # trouble dealing with it.
 
 def fibonacci(num)
-  # ...
+  if num < 2
+    num
+  else
+    fibonacci(num - 1) + fibonacci(num - 2)
+  end
 end
 
 # Examples:
@@ -24,9 +28,11 @@ p fibonacci(4) == 3
 p fibonacci(5) == 5
 p fibonacci(12) == 144
 p fibonacci(20) == 6765
+# p fibonacci(40) == 102334155
 
 =begin
-PEDAC
+PEDAC #### ok none of the below actually works for a recursive method...
+it's more ground up, use as starting place for (next) procedural exercise
 -----
 input:  integer
 output: integer
