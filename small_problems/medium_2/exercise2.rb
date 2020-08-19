@@ -1,5 +1,5 @@
 # exercise2.rb - Now I Know My ABCs
-require 'pry'
+
 # A collection of spelling blocks has two letters per block, as shown
 # in this list:
 
@@ -13,30 +13,31 @@ require 'pry'
 
 # Write a method that returns true if the word passed in as an argument can be
 # spelled from this set of blocks, false otherwise.
-spelling_blocks = [['B', 'O'], ['X', 'K'], ['D', 'Q'], ['C', 'P'], ['N', 'A'],
-                   ['G', 'T'], ['R', 'E'], ['F', 'S'], ['J', 'W'], ['H', 'U'],
-                   ['V', 'I'], ['L', 'Y'], ['Z', 'M']]
 
-def block_word?(str, spelling_blocks)
+SPELLING_BLOCKS = %w(BO XK DQ CP NA GT RE FS JW HU VI LY ZM)
+
+def block_word?(str)
   chars = str.upcase.chars
   result = nil
-  game_blocks = spelling_blocks.map(&:dup)
+  game_blocks = SPELLING_BLOCKS.map(&:dup)
   chars.each do |char|
     game_blocks.each do |sub|
       if sub.include?(char)
         game_blocks.delete(sub)
         result = true
+        break
       else
         result = false
       end
     end
   end
-  p result
+  result
 end
+
 # Examples:
-p block_word?('BATCH', spelling_blocks) == true
-p block_word?('BUTCH', spelling_blocks) == false
-p block_word?('jest', spelling_blocks) == true
+p block_word?('BATCH') == true
+p block_word?('BUTCH') == false
+p block_word?('jest') == true
 
 =begin
 input: string
