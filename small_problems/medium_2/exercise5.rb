@@ -15,10 +15,25 @@
 # :invalid depending on whether the triangle is equilateral, isosceles,
 # scalene, or invalid.
 
+# rubocop:disable Metrics/CyclomaticComplexity
+
 def triangle(num1, num2, num3)
   arr = [num1, num2, num3].sort
-  p arr
+  case
+  when arr.last > arr[0] + arr[1] || arr.include?(0)
+    :invalid
+  when arr[0] == arr[1] && arr[1] == arr[2]
+    :equilateral
+  when arr[0] != arr[1] && arr[1] != arr[2]
+    :scalene
+  else
+    :isosceles
+  end
 end
+
+# rubocop:enable Metrics/CyclomaticComplexity
+
+
 # Examples:
 p triangle(3, 3, 3) == :equilateral
 p triangle(3, 3, 1.5) == :isosceles
