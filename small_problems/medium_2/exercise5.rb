@@ -33,7 +33,6 @@ end
 
 # rubocop:enable Metrics/CyclomaticComplexity
 
-
 # Examples:
 p triangle(3, 3, 3) == :equilateral
 p triangle(3, 3, 1.5) == :isosceles
