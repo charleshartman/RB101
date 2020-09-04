@@ -22,7 +22,15 @@
 # assume that the Array contains at least 2 elements.
 
 def bubble_sort!(arr)
-  # code
+  1.upto(arr.length - 1) do
+    idx = 0
+
+    while idx < arr.length - 1
+      arr[idx], arr[idx + 1] = arr[idx + 1], arr[idx] if arr[idx] > arr[idx + 1]
+      idx += 1
+    end
+  end
+  arr
 end
 
 # Examples:
@@ -52,5 +60,5 @@ algorithm:
   - return sorted array
 
 array[0], array[1] = array[1], array[0] if array[0] > array[1]
-
+arr[idx], arr[idx + 1] = arr[idx + 1], arr[idx] if arr[idx] > arr[idx + 1]
 =end
