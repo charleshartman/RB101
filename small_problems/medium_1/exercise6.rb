@@ -48,10 +48,26 @@
 
 # You should initialize the register to 0.
 
+# rubocop:disable Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
 def minilang(str)
-  # ...
+  register = 0
+  stack = []
+  str.split.each do |card|
+    case card
+    when 'PUSH'   then stack << register
+    when 'ADD'    then register += stack.pop
+    when 'SUB'    then register -= stack.pop
+    when 'MULT'   then register *= stack.pop
+    when 'DIV'    then register /= stack.pop
+    when 'MOD'    then register %= stack.pop
+    when 'POP'    then register = stack.pop
+    when 'PRINT'  then puts register.to_i
+    else          register = card.to_i
+    end
+  end
+  puts "---"
 end
-
+# rubocop:enable Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
 # Examples:
 minilang('PRINT')
 # 0
@@ -76,3 +92,22 @@ minilang('-3 PUSH 5 SUB PRINT')
 # 8
 minilang('6 PUSH')
 # (nothing printed; no PRINT commands)
+
+=begin
+
+problem:
+  - create method to process a series of commands provided as a str with spaces
+    between each command
+
+input: string
+output: integer(s)
+data structure: integer, array
+
+algorithm:
+  - initialize (register) to 0
+  - initialize (stack) to []
+  - convert string to array (tokens)
+  - iterate through (tokens)
+    - take action upon stack or register based on token
+
+=end
