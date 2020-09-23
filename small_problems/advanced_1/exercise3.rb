@@ -57,3 +57,22 @@ p new_matrix == [[1, 4, 3], [5, 7, 9], [8, 2, 6]]
 p matrix == [[1, 5, 8], [4, 7, 2], [3, 9, 6]]
 
 # This program should print "true" twice.
+
+=begin
+
+<-PEDAC->
+problem:
+  - return new array in which the like indexes of the given array are grouped
+    into subarrays
+
+input:array
+output:array
+data structure: array
+
+algorithm:
+  - initialize new array (verts) to []
+  - iterate through each sub-array of the given array
+    - push each element at each index into new subs of (verts)
+  - return verts
+
+=end
